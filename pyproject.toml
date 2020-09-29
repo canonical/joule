@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "microk8s-puppetmaster"
+version = "0.1.0"
+description = ""
+authors = ["Joe Borg <joseph.borg@canonical.com>"]
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+boto3 = "^1.15.7"
+ec2-metadata = "^2.2.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
