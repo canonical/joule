@@ -54,6 +54,7 @@ class BaseProvider(ABC):
         :return: str
         """
         return check_output([
+            'sudo',
             'microk8s',
             'add-node',
             '--token-ttl', '-1'
@@ -66,10 +67,11 @@ class BaseProvider(ABC):
         :return: None
         """
         check_output([
+            'sudo',
             'microk8s',
             'remove-node',
-            '--force',
-            instance
+            instance,
+            '--force'
         ])
 
     def join_node_to_microk8s(self, token: str) -> None:
@@ -77,6 +79,7 @@ class BaseProvider(ABC):
         Run microk8s join to add instance to cluster.
         """
         check_output([
+            'sudo',
             'microk8s',
             'join',
             token
