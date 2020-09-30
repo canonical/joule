@@ -10,7 +10,8 @@ from typing import (
 from . import (
     BaseProvider,
     Event,
-    Events
+    Events,
+    logging
 )
 
 
@@ -26,6 +27,9 @@ class AwsProvider(BaseProvider):
         :param region: Overwrite region from metadata server
         :return: None
         """
+        logging.info('Using AWS Provider.')
+        self.instance_id = ec2_metadata.instance_id
+
         if not region:
             region = ec2_metadata.region
 
@@ -44,7 +48,24 @@ class AwsProvider(BaseProvider):
             loaded = json.loads(msg.body)
 
             if loaded.get('Event') == 'autoscaling:EC2_INSTANCE_LAUNCH':
+                msg.delete()
                 yield Event(event=Events.LAUNCH, instance=loaded.get('EC2InstanceId'))
 
             elif loaded.get('Event') == 'autoscaling:EC2_INSTANCE_TERMINATE':
+                msg.delete()
                 yield Event(event=Events.TERMINATE, instance=loaded.get('EC2InstanceId'))
+
+            elif loaded.get('Event') == 'microk8s:join':
+                if loaded.get('EC2InstanceId') == self.instance_id:
+                    msg.delete()
+                    yield Event(event=Events.JOIN, instance=loaded.get('EC2InstanceId'), token=loaded.get('Token'))
+
+    def send_token_to_message_queue(self, token: str, instance: str) -> None:
+        """
+        Add the generated token to the queue.
+        """
+        self.queue.send_message(MessageBody=json.dumps({
+            'Event': 'microk8s:join',
+            'EC2InstanceId': instance,
+            'Token': token
+        }))
