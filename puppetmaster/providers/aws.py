@@ -7,7 +7,7 @@ from typing import (
     Optional
 )
 
-from . import (
+from puppetmaster.providers import (
     BaseProvider,
     Event,
     Events,

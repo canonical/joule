@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import logging
-from providers.aws import AwsProvider
+from puppetmaster.providers.aws import AwsProvider
 
 
 def main():
