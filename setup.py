@@ -10,8 +10,8 @@ setup(
     author_email='joseph.borg@canonical.com',
     description='Drive MicroK8s inside scale groups',
     packages=[
-        'bin',
-        'providers'
+        'puppetmaster',
+        'puppetmaster.providers'
     ],
     install_requires=[
         'boto3',
@@ -19,7 +19,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'puppetmaster=bin.puppetmaster:main',
+            'puppetmaster=puppetmaster.daemon:main',
         ],
     }
 )
