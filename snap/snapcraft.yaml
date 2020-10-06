@@ -14,7 +14,7 @@ confinement: classic
 apps:
   microk8s-puppetmaster:
     daemon: simple
-    command: bin/puppetmaster
+    command: bin/python3 $SNAP/bin/puppetmaster
 
 parts:
   microk8s-puppetmaster:
