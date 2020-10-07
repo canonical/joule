@@ -67,7 +67,7 @@ class AwsProvider(BaseProvider):
 
         :return: None
         """
-        ec2 = boto3.resource('ec2', region_name=self._region)
+        ec2 = boto3.client('ec2', region_name=self._region)
         instance = ec2 \
         .describe_instances(InstanceIds=[instance]) \
         .get('Reservations')[0] \
