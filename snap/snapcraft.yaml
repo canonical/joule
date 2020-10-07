@@ -3,10 +3,7 @@ base: core20
 version: git
 summary: MicroK8s Cloud Puppermaster
 description: |
-  This is my-snap's description. You have a paragraph or two to tell the
-  most important story about your snap. Keep it under 100 words though,
-  we live in tweetspace and your description wants to look good in the snap
-  store.
+  Listen for cloud events and drive MicroK8s accordingly.
 
 grade: stable
 confinement: classic
