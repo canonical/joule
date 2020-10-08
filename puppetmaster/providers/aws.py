@@ -66,16 +66,11 @@ class AwsProvider(BaseProvider):
 
         :return: None
         """
-        ec2 = boto3.client("ec2", region_name=self._region)
-        instance = (
-            ec2.describe_instances(InstanceIds=[event.instance])
-            .get("Reservations")[0]
-            .get("Instances")[0]
-            .get("PrivateDnsName")
-            .split(".")[0]
-        )
+        out = check_output(["sudo", "microk8s", "kubectl", "--output=json", "get", "nodes", "-l", "ec2={}".format(event.instance)])
+        desc = json.loads(out)
+        event.instance = desc.get("items")[0].get("metadata").get("labels").get("kubernetes.io/hostname")
 
-        super().remove_node_from_microk8s(instance)
+        super().remove_node_from_microk8s(event)
 
     def send_token_to_message_queue(self, event: Event) -> None:
         """
