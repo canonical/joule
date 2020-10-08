@@ -106,6 +106,10 @@ class AwsProvider(BaseProvider):
         """
         Run microk8s join to add instance to cluster.
         """
+        super().join_node_to_microk8s(event)
+
+        check_output(["sudo", "microk8s", "status", "--wait-ready"])
+
         dns = socket.gethostname()
         check_output(
             [
@@ -118,5 +122,3 @@ class AwsProvider(BaseProvider):
                 "ec2={}".format(event.instance),
             ]
         )
-
-        super().join_node_to_microk8s(event)
