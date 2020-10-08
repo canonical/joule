@@ -119,4 +119,4 @@ class AwsProvider(BaseProvider):
             ]
         )
 
-        super().join_node_to_microk8s(event.token)
+        super().join_node_to_microk8s(event)
