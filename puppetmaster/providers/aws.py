@@ -88,7 +88,7 @@ class AwsProvider(BaseProvider):
 
         super().remove_node_from_microk8s(event)
 
-    def send_token_to_message_queue(self, event: Event) -> None:
+    def send_token_to_message_queue(self, event: Event, token: str) -> None:
         """
         Add the generated token to the queue.
         """
@@ -97,7 +97,7 @@ class AwsProvider(BaseProvider):
                 {
                     "Event": "microk8s:join",
                     "EC2InstanceId": event.instance,
-                    "Token": event.token,
+                    "Token": token,
                 }
             )
         )

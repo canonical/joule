@@ -41,7 +41,7 @@ class BaseProvider(ABC):
     def get_events_from_message_queue(self) -> Iterator[Optional[Event]]:
         raise NotImplementedError("Must use a real provider.")
 
-    def send_token_to_message_queue(self, event: Event) -> None:
+    def send_token_to_message_queue(self, event: Event, token: str) -> None:
         raise NotImplementedError("Must use a real provider.")
 
     def get_token_from_microk8s(self) -> str:
@@ -84,8 +84,8 @@ class BaseProvider(ABC):
 
                 elif event.event is Events.LAUNCH:
                     logging.info("LAUNCH event.")
-                    event.token = self.get_token_from_microk8s()
-                    self.send_token_to_message_queue(event)
+                    token = self.get_token_from_microk8s()
+                    self.send_token_to_message_queue(event, token)
 
                 elif event.event is Events.TERMINATE:
                     logging.info("TERMINATE event.")
