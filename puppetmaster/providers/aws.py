@@ -66,9 +66,25 @@ class AwsProvider(BaseProvider):
 
         :return: None
         """
-        out = check_output(["sudo", "microk8s", "kubectl", "--output=json", "get", "nodes", "-l", "ec2={}".format(event.instance)])
+        out = check_output(
+            [
+                "sudo",
+                "microk8s",
+                "kubectl",
+                "--output=json",
+                "get",
+                "nodes",
+                "-l",
+                "ec2={}".format(event.instance),
+            ]
+        )
         desc = json.loads(out)
-        event.instance = desc.get("items")[0].get("metadata").get("labels").get("kubernetes.io/hostname")
+        event.instance = (
+            desc.get("items")[0]
+            .get("metadata")
+            .get("labels")
+            .get("kubernetes.io/hostname")
+        )
 
         super().remove_node_from_microk8s(event)
 
@@ -96,7 +112,7 @@ class AwsProvider(BaseProvider):
                 "sudo",
                 "microk8s",
                 "kubectl",
-                "nodes",
+                "label" "nodes",
                 dns,
                 "ec2={}".format(event.instance),
             ]
