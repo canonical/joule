@@ -112,7 +112,8 @@ class AwsProvider(BaseProvider):
                 "sudo",
                 "microk8s",
                 "kubectl",
-                "label" "nodes",
+                "label",
+                "nodes",
                 dns,
                 "ec2={}".format(event.instance),
             ]
