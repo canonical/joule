@@ -1,8 +1,8 @@
 import logging
 
-from abc import ABC
+from abc import ABC, abstractmethod
 from time import sleep
-from typing import Iterator, List, Optional
+from typing import Iterator, Optional
 from subprocess import check_output
 
 from puppetmaster.events import Events, Event
@@ -15,16 +15,15 @@ class BaseProvider(ABC):
     Inherit for shared methods.
     """
 
-    def __init__(self):
-        raise NotImplementedError("Must use a real provider.")
-
+    @abstractmethod
     def get_events_from_message_queue(self) -> Iterator[Optional[Event]]:
-        raise NotImplementedError("Must use a real provider.")
+        return
 
+    @abstractmethod
     def send_token_to_message_queue(self, event: Event, token: str) -> None:
-        raise NotImplementedError("Must use a real provider.")
+        return
 
-    def loop(self, applications: List[object]):
+    def loop(self, *applications: object):
         """
         Loop indefinitely, check for events and act upon them.
 

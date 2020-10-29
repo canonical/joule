@@ -8,9 +8,6 @@ class MicroK8sApplication(BaseApplication):
     MicroK8s Application.
     """
 
-    def __init__(self):
-        raise NotImplementedError("Must use a real application.")
-
     def _get_token_from_microk8s(self) -> str:
         """
         Run microk8s add-node to generate a token.

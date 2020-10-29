@@ -9,7 +9,7 @@ def main():
         format="%(asctime)s %(levelname)s:%(message)s", level=logging.INFO
     )
     logging.info("Listening for events...")
-    AwsProvider().loop([MicroK8sApplication()])
+    AwsProvider().loop(MicroK8sApplication())
 
 
 if __name__ == "__main__":
