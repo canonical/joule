@@ -16,4 +16,6 @@ apps:
 parts:
   microk8s-puppetmaster:
     plugin: python
+    python-packages:
+      - wheel
     source: .
