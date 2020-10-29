@@ -2,8 +2,8 @@ import logging
 
 from abc import ABC, abstractmethod
 
-from puppetmaster.events import Events, Event
-from puppetmaster.providers import BaseProvider
+from autoscale.events import Events, Event
+from autoscale.providers import BaseProvider
 
 
 class BaseApplication(ABC):

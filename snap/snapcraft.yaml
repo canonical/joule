@@ -11,7 +11,7 @@ confinement: classic
 apps:
   microk8s-puppetmaster:
     daemon: simple
-    command: bin/python3 $SNAP/bin/puppetmaster
+    command: bin/python3 $SNAP/bin/autoscale
 
 parts:
   microk8s-puppetmaster:
