@@ -8,7 +8,7 @@ setup(
     license='Apache License 2.0',
     author='Joe Borg',
     author_email='joseph.borg@canonical.com',
-    description='Drive apps inside scale groups',
+    description='Drive applications inside auto scale groups',
     packages=[
         'autoscale',
         'autoscale.applications',

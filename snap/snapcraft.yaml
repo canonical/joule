@@ -1,7 +1,7 @@
 name: microk8s-puppetmaster
 base: core20
 version: git
-summary: MicroK8s Cloud Puppermaster
+summary: Autoscale cloud appliances
 description: |
   Listen for cloud events and drive MicroK8s accordingly.
 

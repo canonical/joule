@@ -1,2 +1,2 @@
 # microk8s-autoscale
-Automate scaling out MicroK8s clusters
+Automate scaling of applications
