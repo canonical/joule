@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import logging
-from puppetmaster.applications.microk8s import MicroK8sApplication
-from puppetmaster.providers.aws import AwsProvider
+from autoscale.applications.microk8s import MicroK8sApplication
+from autoscale.providers.aws import AwsProvider
 
 
 def main():

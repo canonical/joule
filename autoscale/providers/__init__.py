@@ -3,9 +3,8 @@ import logging
 from abc import ABC, abstractmethod
 from time import sleep
 from typing import Iterator, Optional
-from subprocess import check_output
 
-from puppetmaster.events import Events, Event
+from autoscale.events import Events, Event
 
 
 class BaseProvider(ABC):

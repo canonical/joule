@@ -5,7 +5,7 @@ import socket
 from ec2_metadata import ec2_metadata
 from typing import Iterator, Optional
 
-from puppetmaster.providers import BaseProvider, Event, Events, check_output, logging
+from autoscale.providers import BaseProvider, Event, Events, logging
 
 
 class AwsProvider(BaseProvider):
@@ -60,34 +60,6 @@ class AwsProvider(BaseProvider):
                         token=loaded.get("Token"),
                     )
 
-    def remove_node_from_microk8s(self, event: Event) -> None:
-        """
-        Replace the AWS internal instance ID with the real hostname.
-
-        :return: None
-        """
-        out = check_output(
-            [
-                "sudo",
-                "microk8s",
-                "kubectl",
-                "--output=json",
-                "get",
-                "nodes",
-                "-l",
-                "ec2={}".format(event.instance),
-            ]
-        )
-        desc = json.loads(out)
-        event.instance = (
-            desc.get("items")[0]
-            .get("metadata")
-            .get("labels")
-            .get("kubernetes.io/hostname")
-        )
-
-        super().remove_node_from_microk8s(event)
-
     def send_token_to_message_queue(self, event: Event, token: str) -> None:
         """
         Add the generated token to the queue.
@@ -100,25 +72,4 @@ class AwsProvider(BaseProvider):
                     "Token": token,
                 }
             )
-        )
-
-    def join_node_to_microk8s(self, event: Event) -> None:
-        """
-        Run microk8s join to add instance to cluster.
-        """
-        super().join_node_to_microk8s(event)
-
-        check_output(["sudo", "microk8s", "status", "--wait-ready"])
-
-        dns = socket.gethostname()
-        check_output(
-            [
-                "sudo",
-                "microk8s",
-                "kubectl",
-                "label",
-                "nodes",
-                dns,
-                "ec2={}".format(event.instance),
-            ]
         )

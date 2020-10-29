@@ -2,18 +2,18 @@ from setuptools import setup
 
 
 setup(
-    name='microk8s-puppetmaster',
+    name='autoscale',
     version='0.1.0',
-    url='https://github.com/joedborg/microk8s-puppetmaster',
+    url='https://github.com/joedborg/microk8s-autoscale',
     license='Apache License 2.0',
     author='Joe Borg',
     author_email='joseph.borg@canonical.com',
-    description='Drive MicroK8s inside scale groups',
+    description='Drive apps inside scale groups',
     packages=[
-        'puppetmaster',
-        'puppetmaster.applications',
-        'puppetmaster.events',
-        'puppetmaster.providers'
+        'autoscale',
+        'autoscale.applications',
+        'autoscale.events',
+        'autoscale.providers'
     ],
     install_requires=[
         'boto3',
@@ -21,7 +21,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'puppetmaster=puppetmaster.daemon:main',
+            'autoscale=autoscale.daemon:main',
         ],
     }
 )
