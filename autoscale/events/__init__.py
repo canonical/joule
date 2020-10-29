@@ -18,6 +18,6 @@ class Event:
     """
 
     def __init__(self, event: Enum, instance: str, token: Optional[str] = None):
-        self.event = event
-        self.instance = instance
-        self.token = token
+        self.event: Enum = event
+        self.instance: str = instance
+        self.token: Optional[str] = token

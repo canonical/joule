@@ -24,7 +24,14 @@ class MicroK8sApplication(BaseApplication):
         )
 
     def join(self, provider: BaseProvider, event: Event) -> None:
-        logging.info("JOIN: {}".format(event))
+        """
+        Run microk8s join with the token provided.
+
+        Once the node has started, we need to tag it with the EC2 ID in
+        order to find it again later.
+
+        :return: None
+        """
         check_output(["sudo", "microk8s", "join", event.token])
         check_output(["sudo", "microk8s", "status", "--wait-ready"])
         check_output(
@@ -40,12 +47,22 @@ class MicroK8sApplication(BaseApplication):
         )
 
     def launch(self, provider: BaseProvider, event: Event) -> None:
-        logging.info("LAUNCH: {}".format(event))
+        """
+        Generate a token using microk8s add-node and then push it to
+        the queue for consumption.
+
+        :return: None
+        """
         token: str = self._get_token_from_microk8s()
         provider.send_token_to_message_queue(event, token)
 
     def terminate(self, provider: BaseProvider, event: Event) -> None:
-        logging.info("TERMINATE: {}".format(event))
+        """
+        Retrieve the correct instance using the EC2 instance ID, then
+        remove it from the microk8s cluster.
+
+        :return: None
+        """
         out: str = check_output(
             [
                 "sudo",
@@ -59,7 +76,7 @@ class MicroK8sApplication(BaseApplication):
             ]
         )
         desc: dict = json.loads(out)
-        hostname = (
+        hostname: str = (
             desc.get("items")[0]
             .get("metadata")
             .get("labels")

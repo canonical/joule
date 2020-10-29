@@ -21,14 +21,14 @@ class AwsProvider(BaseProvider):
         :return: None
         """
         logging.info("Using AWS Provider.")
-        self.instance_id = ec2_metadata.instance_id
+        self.instance_id: str = ec2_metadata.instance_id
 
         if not region:
-            region = ec2_metadata.region
-            self._region = region
+            region: str = ec2_metadata.region
+            self._region: str = region
 
-        sqs = boto3.resource("sqs", region_name=self._region)
-        self.queue = sqs.get_queue_by_name(QueueName="MicroK8s-Cluster")
+        sqs: object = boto3.resource("sqs", region_name=self._region)
+        self.queue: object = sqs.get_queue_by_name(QueueName="MicroK8s-Cluster")
 
     def get_events_from_message_queue(self) -> Iterator[Optional[Event]]:
         """
@@ -36,10 +36,10 @@ class AwsProvider(BaseProvider):
 
         :return: Event
         """
-        rx = self.queue.receive_messages()
+        rx: object = self.queue.receive_messages()
 
         for msg in rx:
-            loaded = json.loads(msg.body)
+            loaded: dict = json.loads(msg.body)
 
             if loaded.get("Event") == "autoscaling:EC2_INSTANCE_LAUNCH":
                 msg.delete()
