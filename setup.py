@@ -11,6 +11,8 @@ setup(
     description='Drive MicroK8s inside scale groups',
     packages=[
         'puppetmaster',
+        'puppetmaster.applications',
+        'puppetmaster.events',
         'puppetmaster.providers'
     ],
     install_requires=[
