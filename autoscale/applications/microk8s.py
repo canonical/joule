@@ -30,6 +30,8 @@ class MicroK8sApplication(BaseApplication):
         Once the node has started, we need to tag it with the EC2 ID in
         order to find it again later.
 
+        :param provider: BaseProvider instance of specific cloud
+        :param event: Event object from queue
         :return: None
         """
         check_output(["sudo", "microk8s", "join", event.token])
@@ -51,6 +53,8 @@ class MicroK8sApplication(BaseApplication):
         Generate a token using microk8s add-node and then push it to
         the queue for consumption.
 
+        :param provider: BaseProvider instance of specific cloud
+        :param event: Event object from queue
         :return: None
         """
         token: str = self._get_token_from_microk8s()
@@ -61,6 +65,8 @@ class MicroK8sApplication(BaseApplication):
         Retrieve the correct instance using the EC2 instance ID, then
         remove it from the microk8s cluster.
 
+        :param provider: BaseProvider instance of specific cloud
+        :param event: Event object from queue
         :return: None
         """
         out: str = check_output(

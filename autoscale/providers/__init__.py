@@ -26,6 +26,7 @@ class BaseProvider(ABC):
         """
         Loop indefinitely, check for events and act upon them.
 
+        :param applications: BaseApplication
         :return: None
         """
         while True:

@@ -13,11 +13,11 @@ class AwsProvider(BaseProvider):
     AWS Provider.
     """
 
-    def __init__(self, region: Optional[str] = None):
+    def __init__(self, region: Optional[str] = None) -> None:
         """
         Setup AWS API objects.
 
-        :param region: Overwrite region from metadata server
+        :param region: String overwrite region from metadata server
         :return: None
         """
         logging.info("Using AWS Provider.")
@@ -63,6 +63,10 @@ class AwsProvider(BaseProvider):
     def send_token_to_message_queue(self, event: Event, token: str) -> None:
         """
         Add the generated token to the queue.
+
+        :param event: Event object from queue
+        :param token: String add-node token
+        :return: None
         """
         self.queue.send_message(
             MessageBody=json.dumps(
