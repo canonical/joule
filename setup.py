@@ -15,7 +15,7 @@ setup(
         "autoscale.events",
         "autoscale.providers",
     ],
-    install_requires=["boto3", "ec2-metadata"],
+    install_requires=["boto3", "ec2-metadata", "pyyaml"],
     entry_points={
         "console_scripts": [
             "autoscale=autoscale.daemon:main",

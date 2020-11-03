@@ -15,11 +15,27 @@ class BaseProvider(ABC):
     """
 
     @abstractmethod
+    def mark_essential(self, *applications: object) -> None:
+        """
+        :param: application: BaseApplication
+        :return: None
+        """
+        return
+
+    @abstractmethod
     def get_events_from_message_queue(self) -> Iterator[Optional[Event]]:
+        """
+        :return: Event
+        """
         return
 
     @abstractmethod
     def send_token_to_message_queue(self, event: Event, token: str) -> None:
+        """
+        :param event: Event
+        :param token: String
+        :return: None
+        """
         return
 
     def loop(self, *applications: object):
@@ -30,6 +46,9 @@ class BaseProvider(ABC):
         :return: None
         """
         while True:
+
+            self.mark_essential(*applications)
+
             for event in self.get_events_from_message_queue():
                 if event.event is Events.JOIN:
                     logging.info("JOIN event.")

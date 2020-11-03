@@ -2,6 +2,7 @@ import boto3
 import json
 import socket
 
+from datetime import datetime
 from ec2_metadata import ec2_metadata
 from typing import Iterator, Optional
 
@@ -29,6 +30,31 @@ class AwsProvider(BaseProvider):
 
         sqs: object = boto3.resource("sqs", region_name=self._region)
         self.queue: object = sqs.get_queue_by_name(QueueName="MicroK8s-Cluster")
+
+        self.asg: object = boto3.client("autoscaling", region_name=self._region)
+
+    def mark_essential(self, *applications: object) -> None:
+        """
+        Mark instance as protected if required.
+
+        :param: application: BaseApplication
+        :return: None
+        """
+        if datetime.now().second != 0:
+            return  # Run every minute.
+
+        asg_name: str = self.asg.describe_auto_scaling_instances(
+            InstanceIds=[ec2_metadata.instance_id], MaxRecords=1
+        )["AutoScalingInstances"][0]["AutoScalingGroupName"]
+
+        for app in applications:
+            is_essential: bool = app.is_essential()
+            self.asg.set_instance_protection(
+                InstanceIds=[ec2_metadata.instance_id],
+                AutoScalingGroupName=asg_name,
+                ProtectedFromScaleIn=is_essential,
+            )
+            logging.info("essential={}".format(is_essential))
 
     def get_events_from_message_queue(self) -> Iterator[Optional[Event]]:
         """

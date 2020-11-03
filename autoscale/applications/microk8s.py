@@ -1,5 +1,6 @@
 import json
 import socket
+import yaml
 
 from subprocess import check_output
 
@@ -22,6 +23,28 @@ class MicroK8sApplication(BaseApplication):
             .decode()
             .split()[15]
         )
+
+    def is_essential(self) -> bool:
+        """
+        Check whether this microk8s instance is a voter.
+
+        :return: False
+        """
+        out: str = check_output(["microk8s", "status", "--format", "yaml"])
+        parsed: dict = yaml.safe_load(out)
+
+        if not parsed.get("high-availability"):
+            return False
+
+        my_ip: str = socket.gethostbyname(socket.gethostname())
+
+        for node in parsed["high-availability"]["nodes"]:
+            ip: str = node["address"].split(":")[0]
+            role: str = node["role"]
+            if ip == my_ip and role == "voter":
+                return True
+
+        return False
 
     def join(self, provider: BaseProvider, event: Event) -> None:
         """

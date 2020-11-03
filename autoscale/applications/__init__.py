@@ -14,6 +14,13 @@ class BaseApplication(ABC):
     """
 
     @abstractmethod
+    def is_essential(self) -> bool:
+        """
+        :return: Boolean is node essential / protect from scale in
+        """
+        return False
+
+    @abstractmethod
     def join(self, provider: BaseProvider, event: Event) -> None:
         """
         :param provider: BaseProvider instance of specific cloud
