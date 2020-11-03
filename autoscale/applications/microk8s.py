@@ -18,6 +18,7 @@ class MicroK8sApplication(BaseApplication):
 
         :return: str
         """
+        logging.debug("Generating token")
         return (
             check_output(["sudo", "microk8s", "add-node", "--token-ttl", "-1"])
             .decode()

@@ -54,7 +54,7 @@ class AwsProvider(BaseProvider):
                 AutoScalingGroupName=asg_name,
                 ProtectedFromScaleIn=is_essential,
             )
-            logging.info("essential={}".format(is_essential))
+            logging.debug("essential={}".format(is_essential))
 
     def get_events_from_message_queue(self) -> Iterator[Optional[Event]]:
         """
