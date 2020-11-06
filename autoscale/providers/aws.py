@@ -29,7 +29,7 @@ class AwsProvider(BaseProvider):
             self._region: str = region
 
         sqs: object = boto3.resource("sqs", region_name=self._region)
-        self.queue: object = sqs.get_queue_by_name(QueueName="MicroK8s-Cluster")
+        self.queue: object = sqs.get_queue_by_name(QueueName="MicroK8s")
 
         self.asg: object = boto3.client("autoscaling", region_name=self._region)
 
