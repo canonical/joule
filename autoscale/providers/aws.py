@@ -6,6 +6,10 @@ from datetime import datetime
 from ec2_metadata import ec2_metadata
 from typing import Iterator, Optional
 
+from mypy_boto3_autoscaling.client import AutoScalingClient
+from mypy_boto3_sqs.client import SQSClient
+from mypy_boto3_sqs.service_resource import Message, Queue
+
 from autoscale.providers import BaseProvider, Event, Events, logging
 
 
@@ -28,10 +32,12 @@ class AwsProvider(BaseProvider):
             region: str = ec2_metadata.region
             self._region: str = region
 
-        sqs: object = boto3.resource("sqs", region_name=self._region)
-        self.queue: object = sqs.get_queue_by_name(QueueName="MicroK8s")
+        sqs: SQSClient = boto3.resource("sqs", region_name=self._region)
+        self.queue: Queue = sqs.get_queue_by_name(QueueName="MicroK8s")
 
-        self.asg: object = boto3.client("autoscaling", region_name=self._region)
+        self.asg: AutoScalingClient = boto3.client(
+            "autoscaling", region_name=self._region
+        )
 
     def mark_essential(self, *applications: object) -> None:
         """
@@ -62,27 +68,25 @@ class AwsProvider(BaseProvider):
 
         :return: Event
         """
-        rx: object = self.queue.receive_messages()
+        rx: list[Message] = self.queue.receive_messages()
 
         for msg in rx:
-            loaded: dict = json.loads(msg.body)
+            loaded: dict[str, str] = json.loads(msg.body)
 
             if loaded.get("Event") == "autoscaling:EC2_INSTANCE_LAUNCH":
                 msg.delete()
-                yield Event(event=Events.LAUNCH, instance=loaded.get("EC2InstanceId"))
+                yield Event(event=Events.LAUNCH, instance=loaded["EC2InstanceId"])
 
             elif loaded.get("Event") == "autoscaling:EC2_INSTANCE_TERMINATE":
                 msg.delete()
-                yield Event(
-                    event=Events.TERMINATE, instance=loaded.get("EC2InstanceId")
-                )
+                yield Event(event=Events.TERMINATE, instance=loaded["EC2InstanceId"])
 
             elif loaded.get("Event") == "microk8s:join":
                 if loaded.get("EC2InstanceId") == self.instance_id:
                     msg.delete()
                     yield Event(
                         event=Events.JOIN,
-                        instance=loaded.get("EC2InstanceId"),
+                        instance=loaded["EC2InstanceId"],
                         token=loaded.get("Token"),
                     )
 

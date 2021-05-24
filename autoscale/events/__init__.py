@@ -15,13 +15,15 @@ class Events(Enum):
 class Event:
     """
     Event instance.
+
+    This is used to abstract provider specific events into simpler primitives.
     """
 
     def __init__(self, event: Enum, instance: str, token: Optional[str] = None) -> None:
         """
         :param event: Event object from queue
-        :param instance: String cloud instance id
-        :param token: String add-node token
+        :param instance: String cloud provider instance id
+        :param token: String used to join instance to the application cluster
         :return: None
         """
         self.event: Enum = event

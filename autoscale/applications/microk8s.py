@@ -31,7 +31,7 @@ class MicroK8sApplication(BaseApplication):
 
         :return: False
         """
-        out: str = check_output(["microk8s", "status", "--format", "yaml"])
+        out: str = check_output(["microk8s", "status", "--format", "yaml"]).decode()
         parsed: dict = yaml.safe_load(out)
 
         if not parsed.get("high-availability"):
@@ -58,7 +58,7 @@ class MicroK8sApplication(BaseApplication):
         :param event: Event object from queue
         :return: None
         """
-        check_output(["sudo", "microk8s", "join", event.token])
+        check_output(["sudo", "microk8s", "join", str(event.token)])
         check_output(["sudo", "microk8s", "status", "--wait-ready"])
         check_output(
             [
@@ -104,7 +104,7 @@ class MicroK8sApplication(BaseApplication):
                 "-l",
                 "ec2={}".format(event.instance),
             ]
-        )
+        ).decode()
         desc: dict = json.loads(out)
         hostname: str = (
             desc.get("items")[0]
