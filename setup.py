@@ -2,9 +2,9 @@ from setuptools import setup
 
 
 setup(
-    name="autoscale",
+    name="joule",
     version="0.1.0",
-    url="https://github.com/joedborg/microk8s-autoscale",
+    url="https://github.com/joedborg/joule",
     license="Apache License 2.0",
     author="Joe Borg",
     author_email="joseph.borg@canonical.com",
@@ -23,7 +23,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "autoscale=autoscale.daemon:main",
+            "joule=joule.daemon:main",
         ],
     },
 )

@@ -33,7 +33,7 @@ class AwsProvider(BaseProvider):
             self._region: str = region
 
         sqs: SQSClient = boto3.resource("sqs", region_name=self._region)
-        self.queue: Queue = sqs.get_queue_by_name(QueueName="MicroK8s")
+        self.queue: Queue = sqs.get_queue_by_name(QueueName="Joule")
 
         self.asg: AutoScalingClient = boto3.client(
             "autoscaling", region_name=self._region
@@ -81,7 +81,7 @@ class AwsProvider(BaseProvider):
                 msg.delete()
                 yield Event(event=Events.TERMINATE, instance=loaded["EC2InstanceId"])
 
-            elif loaded.get("Event") == "microk8s:join":
+            elif loaded.get("Event") == "joule:join":
                 if loaded.get("EC2InstanceId") == self.instance_id:
                     msg.delete()
                     yield Event(
@@ -101,7 +101,7 @@ class AwsProvider(BaseProvider):
         self.queue.send_message(
             MessageBody=json.dumps(
                 {
-                    "Event": "microk8s:join",
+                    "Event": "joule:join",
                     "EC2InstanceId": event.instance,
                     "Token": token,
                 }

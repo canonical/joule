@@ -10,12 +10,12 @@ grade: stable
 confinement: classic
 
 apps:
-  microk8s-puppetmaster:
+  joule:
     daemon: simple
-    command: bin/python3 $SNAP/bin/autoscale
+    command: bin/python3 $SNAP/bin/joule
 
 parts:
-  microk8s-puppetmaster:
+  joule:
     plugin: python
     python-packages:
       - wheel
