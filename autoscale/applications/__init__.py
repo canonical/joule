@@ -44,7 +44,7 @@ class BaseApplication(ABC):
     @abstractmethod
     def launch(self, provider: BaseProvider, event: Event) -> None:
         """
-        Called when a new instance has been launched by the provider.  Use
+        Called on an existing instance when a new instance has been launched by the provider.  Use
         this for handling any actions required before the new instance are
         joined to the cluster.  It could be run on any existing instance in
         the cluster.  For example, adding the new instance to a list of
