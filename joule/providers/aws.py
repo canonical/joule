@@ -25,7 +25,6 @@ class AwsProvider(BaseProvider):
         :param region: String overwrite region from metadata server
         :return: None
         """
-        logging.info("Using AWS Provider.")
         self.instance_id: str = ec2_metadata.instance_id
 
         if not region:

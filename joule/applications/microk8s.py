@@ -7,7 +7,7 @@ from subprocess import check_output
 from joule.applications import BaseApplication, BaseProvider, Event, Events, logging
 
 
-class MicroK8sApplication(BaseApplication):
+class Microk8sApplication(BaseApplication):
     """
     MicroK8s Application.
     """

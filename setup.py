@@ -18,6 +18,7 @@ setup(
     install_requires=[
         "boto3",
         "boto3-stubs[autoscaling,sqs]",
+        "click",
         "ec2-metadata",
         "pyyaml",
     ],

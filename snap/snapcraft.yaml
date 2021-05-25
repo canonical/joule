@@ -12,9 +12,14 @@ confinement: classic
 apps:
   joule-expansion:
     daemon: simple
-    command: bin/python3 $SNAP/bin/joule
+    command: wrapper.sh
 
 parts:
+  wrapper:
+    plugin: dump
+    source: ./snap/local/bin
+    stage:
+      - wrapper.sh
   joule-expansion:
     plugin: python
     python-packages:
