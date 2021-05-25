@@ -58,7 +58,7 @@ class BaseApplication(ABC):
     @abstractmethod
     def terminate(self, provider: BaseProvider, event: Event) -> None:
         """
-        Called when an instance is terminated.  Use this to cleanup anything
+        Called on a remaining instance when an instance is terminated.  Use this to cleanup anything
         within the cluster after termination of an existing instance.  It
         could be run on any existing instance on the cluster.  For example,
         removing the instance from a list of allowed hosts.
