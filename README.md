@@ -4,6 +4,22 @@ Named after [Joule expansion](https://en.wikipedia.org/wiki/Joule_expansion),
 Joule helps you to automate the scaling of applications inside cloud scale
 groups.
 
+## Installing
+
+Install with `snap install joule-expansion --classic`.
+
+## Required options
+
+Set these with `snap set joule-expansion ${options}=${value}`. The snap will
+remain in blocked state until these are set.
+
+- `provider`: name of provider. E.g. "aws".
+- `application`: name of application. E.g. "microk8s".
+
+## Discretional options
+
+- `debug`: set to anything except an empty string to enable debug log level.
+
 ## How it works
 
 Joule is split into 2 parts; the provider and the application. The provider's
