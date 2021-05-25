@@ -33,7 +33,7 @@ class BaseApplication(ABC):
         Called after a new instance has started and is only handled on the new
         instance.  Use this for any configuration that needs to be done to the
         application to join the cluster.  For example, passing a token to the
-        application in order to authenticate it into application's the
+        application in order to authenticate it into the
         cluster.
 
         :param provider: BaseProvider instance of specific cloud
