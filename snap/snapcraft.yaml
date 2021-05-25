@@ -1,9 +1,10 @@
-name: microk8s-puppetmaster
+name: joule-expansion
 base: core20
 version: git
-summary: Autoscale cloud appliances
+summary: Joule helps you to automate the scaling of applications inside cloud scale groups.
 description: |
-  Listen for cloud events and drive MicroK8s accordingly.
+  Allow applications, running inside cloud scale groups, to have a say in how and when
+  they're scaled.
 
 grade: stable
 confinement: classic
