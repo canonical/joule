@@ -2,8 +2,8 @@ import logging
 
 from abc import ABC, abstractmethod
 
-from autoscale.events import Events, Event
-from autoscale.providers import BaseProvider
+from joule.events import Events, Event
+from joule.providers import BaseProvider
 
 
 class BaseApplication(ABC):

@@ -10,10 +10,10 @@ setup(
     author_email="joseph.borg@canonical.com",
     description="Drive applications inside auto scale groups",
     packages=[
-        "autoscale",
-        "autoscale.applications",
-        "autoscale.events",
-        "autoscale.providers",
+        "joule",
+        "joule.applications",
+        "joule.events",
+        "joule.providers",
     ],
     install_requires=[
         "boto3",

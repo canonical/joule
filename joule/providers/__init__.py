@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from time import sleep
 from typing import Iterator, Optional
 
-from autoscale.events import Events, Event
+from joule.events import Events, Event
 
 
 class BaseProvider(ABC):

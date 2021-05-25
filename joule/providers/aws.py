@@ -10,7 +10,7 @@ from mypy_boto3_autoscaling.client import AutoScalingClient
 from mypy_boto3_sqs.client import SQSClient
 from mypy_boto3_sqs.service_resource import Message, Queue
 
-from autoscale.providers import BaseProvider, Event, Events, logging
+from joule.providers import BaseProvider, Event, Events, logging
 
 
 class AwsProvider(BaseProvider):

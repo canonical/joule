@@ -4,7 +4,7 @@ import yaml
 
 from subprocess import check_output
 
-from autoscale.applications import BaseApplication, BaseProvider, Event, Events, logging
+from joule.applications import BaseApplication, BaseProvider, Event, Events, logging
 
 
 class MicroK8sApplication(BaseApplication):
