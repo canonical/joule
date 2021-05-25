@@ -60,7 +60,7 @@ class BaseApplication(ABC):
         """
         Called on a remaining instance when an instance is terminated.  Use this to cleanup anything
         within the cluster after termination of an instance.  It
-        could be run on any existing instance on the cluster.  For example,
+        could be run on any remaining instance on the cluster.  For example,
         removing the instance from a list of allowed hosts.
 
         :param provider: BaseProvider instance of specific cloud
