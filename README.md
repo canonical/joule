@@ -42,7 +42,7 @@ allowed hosts.
 
 #### TERMINATE
 
-Called on a remaining instance when an instance is terminated. Use this to cleanup anything
+Created on a remaining instance when an instance is terminated. Use this to cleanup anything
 within the cluster after termination of an instance. It
 could be run on any remaining instance on the cluster. For example,
 removing the instance from a list of allowed hosts.
