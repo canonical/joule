@@ -1,7 +1,7 @@
 name: joule-expansion
 base: core20
 version: git
-summary: Joule helps you to automate the scaling of applications inside cloud scale groups.
+summary: Automate the scaling of applications inside cloud scale groups.
 description: |
   Allow applications, running inside cloud scale groups, to have a say in how and when
   they're scaled.
