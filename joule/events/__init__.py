@@ -19,13 +19,21 @@ class Event:
     This is used to abstract provider specific events into simpler primitives.
     """
 
-    def __init__(self, event: Enum, instance: str, token: Optional[str] = None) -> None:
+    def __init__(
+        self,
+        event: Enum,
+        instance: str,
+        token: Optional[str] = None,
+        application: Optional[object] = None,
+    ) -> None:
         """
         :param event: Event object from queue
         :param instance: String cloud provider instance id
         :param token: String used to join instance to the application cluster
+        :param application: BaseApplication to lock event to
         :return: None
         """
         self.event: Enum = event
         self.instance: str = instance
         self.token: Optional[str] = token
+        self.application: Optional[object] = application

@@ -12,6 +12,8 @@ class Microk8sApplication(BaseApplication):
     MicroK8s Application.
     """
 
+    name: str = "microk8s"
+
     def _get_token_from_microk8s(self) -> str:
         """
         Run microk8s add-node to generate a token.
@@ -82,7 +84,7 @@ class Microk8sApplication(BaseApplication):
         :return: None
         """
         token: str = self._get_token_from_microk8s()
-        provider.send_token_to_message_queue(event, token)
+        provider.send_token_to_message_queue(self, event, token)
 
     def terminate(self, provider: BaseProvider, event: Event) -> None:
         """

@@ -18,18 +18,19 @@ class AwsProvider(BaseProvider):
     AWS Provider.
     """
 
-    def __init__(self, region: Optional[str] = None) -> None:
+    def __init__(self, *applications: object) -> None:
         """
         Setup AWS API objects.
 
-        :param region: String overwrite region from metadata server
+        :param: applications: BaseApplication
         :return: None
         """
+
+        super().__init__(self, *applications)
+
         self.instance_id: str = ec2_metadata.instance_id
 
-        if not region:
-            region: str = ec2_metadata.region
-            self._region: str = region
+        self._region: str = ec2_metadata.region
 
         sqs: SQSClient = boto3.resource("sqs", region_name=self._region)
         self.queue: Queue = sqs.get_queue_by_name(QueueName="Joule")
@@ -38,7 +39,7 @@ class AwsProvider(BaseProvider):
             "autoscaling", region_name=self._region
         )
 
-    def mark_essential(self, *applications: object) -> None:
+    def mark_essential(self) -> None:
         """
         Mark instance as protected if required.
 
@@ -52,7 +53,7 @@ class AwsProvider(BaseProvider):
             InstanceIds=[ec2_metadata.instance_id], MaxRecords=1
         )["AutoScalingInstances"][0]["AutoScalingGroupName"]
 
-        for app in applications:
+        for app in self.applications:
             is_essential: bool = app.is_essential()
             self.asg.set_instance_protection(
                 InstanceIds=[ec2_metadata.instance_id],
@@ -76,23 +77,28 @@ class AwsProvider(BaseProvider):
                 msg.delete()
                 yield Event(event=Events.LAUNCH, instance=loaded["EC2InstanceId"])
 
-            elif loaded.get("Event") == "autoscaling:EC2_INSTANCE_TERMINATE":
+            if loaded.get("Event") == "autoscaling:EC2_INSTANCE_TERMINATE":
                 msg.delete()
                 yield Event(event=Events.TERMINATE, instance=loaded["EC2InstanceId"])
 
-            elif loaded.get("Event") == "joule:join":
-                if loaded.get("EC2InstanceId") == self.instance_id:
-                    msg.delete()
-                    yield Event(
-                        event=Events.JOIN,
-                        instance=loaded["EC2InstanceId"],
-                        token=loaded.get("Token"),
-                    )
+            for app in self.applications:
+                if loaded.get("Event") == "{}:join".format(app.name):
+                    if loaded.get("EC2InstanceId") == self.instance_id:
+                        msg.delete()
+                        yield Event(
+                            event=Events.JOIN,
+                            instance=loaded["EC2InstanceId"],
+                            token=loaded.get("Token"),
+                            application=app,
+                        )
 
-    def send_token_to_message_queue(self, event: Event, token: str) -> None:
+    def send_token_to_message_queue(
+        self, application: object, event: Event, token: str
+    ) -> None:
         """
         Add the generated token to the queue.
 
+        :param application: BaseApplication
         :param event: Event object from queue
         :param token: String add-node token
         :return: None
@@ -100,7 +106,7 @@ class AwsProvider(BaseProvider):
         self.queue.send_message(
             MessageBody=json.dumps(
                 {
-                    "Event": "joule:join",
+                    "Event": "{}:join".format(application.name),
                     "EC2InstanceId": event.instance,
                     "Token": token,
                 }

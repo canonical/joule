@@ -16,6 +16,13 @@ class BaseApplication(ABC):
     The inheriting class will then be operated by the provider's main loop.
     """
 
+    @property
+    def name(self):
+        """
+        Should be set as a string attribute.
+        """
+        raise NotImplementedError
+
     @abstractmethod
     def is_essential(self) -> bool:
         """

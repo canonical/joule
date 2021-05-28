@@ -37,7 +37,7 @@ def main(provider, applications, debug):
         Applications.append(Application())
         logging.debug("Starting with application {}".format(Application))
 
-    Provider().loop(*Applications)
+    Provider(*Applications).loop()
 
 
 if __name__ == "__main__":
