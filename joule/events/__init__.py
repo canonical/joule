@@ -23,17 +23,17 @@ class Event:
         self,
         event: Enum,
         instance: str,
-        token: Optional[str] = None,
+        payload: Optional[dict] = None,
         application: Optional[object] = None,
     ) -> None:
         """
         :param event: Event object from queue
         :param instance: String cloud provider instance id
-        :param token: String used to join instance to the application cluster
+        :param payload: Dict usually used to join instance to the application cluster
         :param application: BaseApplication to lock event to
         :return: None
         """
         self.event: Enum = event
         self.instance: str = instance
-        self.token: Optional[str] = token
+        self.payload: Optional[dict] = payload
         self.application: Optional[object] = application

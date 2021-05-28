@@ -60,7 +60,7 @@ class Microk8sApplication(BaseApplication):
         :param event: Event object from queue
         :return: None
         """
-        check_output(["sudo", "microk8s", "join", str(event.token)])
+        check_output(["sudo", "microk8s", "join", str(event.payload["token"])])
         check_output(["sudo", "microk8s", "status", "--wait-ready"])
         check_output(
             [
@@ -84,7 +84,10 @@ class Microk8sApplication(BaseApplication):
         :return: None
         """
         token: str = self._get_token_from_microk8s()
-        provider.send_token_to_message_queue(self, event, token)
+
+        payload: dict = {"token": token}
+
+        provider.send_join_to_message_queue(self, event, payload)
 
     def terminate(self, provider: BaseProvider, event: Event) -> None:
         """

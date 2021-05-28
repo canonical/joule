@@ -88,19 +88,19 @@ class AwsProvider(BaseProvider):
                         yield Event(
                             event=Events.JOIN,
                             instance=loaded["EC2InstanceId"],
-                            token=loaded.get("Token"),
+                            payload=json.loads(loaded["Payload"]),
                             application=app,
                         )
 
-    def send_token_to_message_queue(
-        self, application: object, event: Event, token: str
+    def send_join_to_message_queue(
+        self, application: object, event: Event, payload: dict
     ) -> None:
         """
         Add the generated token to the queue.
 
         :param application: BaseApplication
         :param event: Event object from queue
-        :param token: String add-node token
+        :param payload: Dict
         :return: None
         """
         self.queue.send_message(
@@ -108,7 +108,7 @@ class AwsProvider(BaseProvider):
                 {
                     "Event": "{}:join".format(application.name),
                     "EC2InstanceId": event.instance,
-                    "Token": token,
+                    "Payload": json.dumps(payload),
                 }
             )
         )
