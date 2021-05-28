@@ -14,7 +14,7 @@ Set these with `snap set joule-expansion ${options}=${value}`. The snap will
 remain in blocked state until these are set.
 
 - `provider`: name of provider. E.g. "aws".
-- `application`: name of application. E.g. "microk8s".
+- `applications`: comma separated list of application names. E.g. "microk8s".
 
 ## Discretional options
 

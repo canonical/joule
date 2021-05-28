@@ -6,10 +6,14 @@ from importlib import import_module
 
 
 @click.command()
-@click.option("--application", required=True, help="Application module name")
-@click.option("--provider", required=True, help="Provider module name")
+@click.option(
+    "--provider", required=True, help="Provider module name, may only be one."
+)
+@click.option(
+    "--applications", required=True, help="Application module names, comma seperated."
+)
 @click.option("--debug", is_flag=True)
-def main(application, provider, debug):
+def main(provider, applications, debug):
     logging.basicConfig(
         format="%(asctime)s %(levelname)s:%(message)s",
         level=logging.DEBUG if debug else logging.INFO,
@@ -21,15 +25,19 @@ def main(application, provider, debug):
         "{}Provider".format(provider.capitalize()),
     )
 
-    Application = getattr(
-        import_module("joule.applications.{}".format(application)),
-        "{}Application".format(application.capitalize()),
-    )
-
     logging.debug("Starting with provider {}".format(Provider))
-    logging.debug("Starting with application {}".format(Application))
 
-    Provider().loop(Application())
+    Applications = []
+
+    for application in applications.split(","):
+        Application = getattr(
+            import_module("joule.applications.{}".format(application)),
+            "{}Application".format(application.capitalize()),
+        )
+        Applications.append(Application())
+        logging.debug("Starting with application {}".format(Application))
+
+    Provider().loop(*Applications)
 
 
 if __name__ == "__main__":

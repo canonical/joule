@@ -1,6 +1,6 @@
 #!/bin/sh
 
-readonly application="$(snapctl get application)"
+readonly applications="$(snapctl get applications)"
 readonly provider="$(snapctl get provider)"
 readonly debug="$(snapctl get debug)"
 
@@ -10,9 +10,9 @@ else
     readonly debug_flag=""
 fi
 
-if [ ! -z "$application" ] && [ ! -z "$provider" ]; then
+if [ ! -z "$applications" ] && [ ! -z "$provider" ]; then
     snapctl set-health okay
-    $SNAP/bin/python3 $SNAP/bin/joule --application "$application" --provider "$provider" $debug_flag
+    $SNAP/bin/python3 $SNAP/bin/joule --applications "$applications" --provider "$provider" $debug_flag
 else
-    snapctl set-health blocked "Must set \`application\` and \`provider\`."
+    snapctl set-health blocked "Must set \`applications\` and \`provider\`."
 fi
