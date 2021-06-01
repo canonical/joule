@@ -1,0 +1,16 @@
+import abc
+from abc import ABC, abstractmethod
+from joule.events import Event as Event, Events as Events
+from joule.providers import BaseProvider as BaseProvider
+
+class BaseApplication(ABC, metaclass=abc.ABCMeta):
+    @property
+    def name(self) -> None: ...
+    @abstractmethod
+    def is_essential(self) -> bool: ...
+    @abstractmethod
+    def join(self, provider: BaseProvider, event: Event) -> None: ...
+    @abstractmethod
+    def launch(self, provider: BaseProvider, event: Event) -> None: ...
+    @abstractmethod
+    def terminate(self, provider: BaseProvider, event: Event) -> None: ...

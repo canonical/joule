@@ -56,7 +56,7 @@ class BaseProvider(ABC):
 
         :param application: BaseApplication
         :param event: Event
-        :param payload: Dict
+        :param payload: Dictionary
         :return: None
         """
 

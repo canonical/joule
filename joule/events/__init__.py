@@ -29,7 +29,7 @@ class Event:
         """
         :param event: Event object from queue
         :param instance: String cloud provider instance id
-        :param payload: Dict usually used to join instance to the application cluster
+        :param payload: Dictionary usually used to join instance to the application cluster
         :param application: BaseApplication to lock event to
         :return: None
         """

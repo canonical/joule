@@ -100,7 +100,7 @@ class AwsProvider(BaseProvider):
 
         :param application: BaseApplication
         :param event: Event object from queue
-        :param payload: Dict
+        :param payload: Dictionary
         :return: None
         """
         self.queue.send_message(
