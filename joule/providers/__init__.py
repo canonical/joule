@@ -71,7 +71,7 @@ class BaseProvider(ABC):
         """
         while True:
 
-            self.mark_essential(*self.applications)
+            self.mark_essential()
 
             for event in self.get_events_from_message_queue():
                 if event.event is Events.JOIN:
@@ -89,6 +89,6 @@ class BaseProvider(ABC):
                     logging.info("TERMINATE event.")
                     for app in self.applications:
                         app.terminate(self, event)
-                else:
-                    sleep(1)
-                    continue
+
+                sleep(1)
+                continue

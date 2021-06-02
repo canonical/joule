@@ -1,13 +1,12 @@
 import boto3
 import json
-import socket
+import logging
 
 from datetime import datetime
 from ec2_metadata import ec2_metadata
 from typing import Iterator, Optional
 
 from mypy_boto3_autoscaling.client import AutoScalingClient
-from mypy_boto3_sqs.client import SQSClient
 from mypy_boto3_sqs.service_resource import Message, Queue
 
 from joule.providers import BaseProvider, Event, Events, logging
@@ -26,14 +25,20 @@ class AwsProvider(BaseProvider):
         :return: None
         """
 
-        super().__init__(self, *applications)
+        super().__init__(*applications)
 
         self.instance_id: str = ec2_metadata.instance_id
 
         self._region: str = ec2_metadata.region
 
-        sqs: SQSClient = boto3.resource("sqs", region_name=self._region)
-        self.queue: Queue = sqs.get_queue_by_name(QueueName="Joule")
+        queue_url: str = boto3.client("sqs", region_name=self._region).list_queues()[
+            "QueueUrls"
+        ][
+            0
+        ]  # Get first queue found.
+        self.queue: Queue = boto3.resource("sqs", region_name=self._region).Queue(
+            queue_url
+        )
 
         self.asg: AutoScalingClient = boto3.client(
             "autoscaling", region_name=self._region
@@ -91,6 +96,8 @@ class AwsProvider(BaseProvider):
                             payload=json.loads(loaded["Payload"]),
                             application=app,
                         )
+
+            logging.debug("Ignoring event: {}".format(loaded))
 
     def send_join_to_message_queue(
         self, application: object, event: Event, payload: dict

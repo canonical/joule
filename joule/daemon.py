@@ -35,7 +35,7 @@ def main(provider, applications, debug):
             "{}Application".format(application.capitalize()),
         )
         Applications.append(Application())
-        logging.debug("Starting with application {}".format(Application))
+        logging.debug("Starting with application {}".format(Application.name))
 
     Provider(*Applications).loop()
 
