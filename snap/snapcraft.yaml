@@ -12,6 +12,7 @@ confinement: classic
 apps:
   joule-expansion:
     daemon: simple
+    restart-condition: always
     command: wrapper.sh
 
 parts:
