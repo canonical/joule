@@ -71,6 +71,7 @@ class BaseProvider(ABC):
         """
         while True:
 
+            logging.info("Loop...")
             self.mark_essential()
 
             for event in self.get_events_from_message_queue():
@@ -90,5 +91,5 @@ class BaseProvider(ABC):
                     for app in self.applications:
                         app.terminate(self, event)
 
-                sleep(1)
-                continue
+            sleep(5)
+            continue

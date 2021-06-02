@@ -76,7 +76,10 @@ class AwsProvider(BaseProvider):
         rx: list[Message] = self.queue.receive_messages()
 
         for msg in rx:
-            loaded: dict[str, str] = json.loads(msg.body)
+            try:
+                loaded: dict[str, str] = json.loads(json.loads(msg.body).get("Message"))
+            except TypeError:
+                loaded: dict[str, str] = json.loads(msg.body)
 
             if loaded.get("Event") == "autoscaling:EC2_INSTANCE_LAUNCH":
                 msg.delete()
@@ -97,7 +100,7 @@ class AwsProvider(BaseProvider):
                             application=app,
                         )
 
-            logging.debug("Ignoring event: {}".format(loaded))
+            logging.info("Ignoring event: {}".format(loaded))
 
     def send_join_to_message_queue(
         self, application: object, event: Event, payload: dict
