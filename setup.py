@@ -16,6 +16,7 @@ setup(
         "joule.providers",
     ],
     install_requires=[
+        "backoff",
         "boto3",
         "boto3-stubs[autoscaling,sqs]",
         "click",
