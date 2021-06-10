@@ -1,8 +1,9 @@
+import backoff
 import json
 import socket
 import yaml
 
-from subprocess import check_output
+from subprocess import check_output, CalledProcessError
 
 from joule.applications import BaseApplication, BaseProvider, Event, Events, logging
 
@@ -13,6 +14,30 @@ class Microk8sApplication(BaseApplication):
     """
 
     name: str = "microk8s"
+
+    @staticmethod
+    @backoff.on_exception(backoff.expo, CalledProcessError)
+    def _label_node(instance_name: str) -> None:
+        """
+        Label the MicroK8s node with the matching cloud instance ID to make
+        it easier to find later.
+
+        Wrapped in a backoff as `wait ready` doesn't seem to be enough.
+
+        :param instance_name: String
+        :return: None
+        """
+        check_output(
+            [
+                "sudo",
+                "microk8s",
+                "kubectl",
+                "label",
+                "nodes",
+                socket.gethostname(),
+                "joule_instance={}".format(instance_name),
+            ]
+        )
 
     def _get_token_from_microk8s(self) -> str:
         """
@@ -62,17 +87,7 @@ class Microk8sApplication(BaseApplication):
         """
         check_output(["sudo", "microk8s", "join", str(event.payload["token"])])
         check_output(["sudo", "microk8s", "status", "--wait-ready"])
-        check_output(
-            [
-                "sudo",
-                "microk8s",
-                "kubectl",
-                "label",
-                "nodes",
-                socket.gethostname(),
-                "ec2={}".format(event.instance),
-            ]
-        )
+        self._label_node(event.instance)
 
     def launch(self, provider: BaseProvider, event: Event) -> None:
         """
@@ -107,7 +122,7 @@ class Microk8sApplication(BaseApplication):
                 "get",
                 "nodes",
                 "-l",
-                "ec2={}".format(event.instance),
+                "joule_instance={}".format(event.instance),
             ]
         ).decode()
         desc: dict = json.loads(out)
