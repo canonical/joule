@@ -75,7 +75,12 @@ class AwsProvider(BaseProvider):
 
         :return: None
         """
-        self._ec2.create_tags(Resources=[self._instance_id], Tags=[self._tag_enrolled])
+        self._ec2.create_tags(
+            Resources=[self._instance_id],
+            Tags=[
+                {"Key": self._tag_enrolled["Key"], "Value": self._tag_enrolled["Value"]}
+            ],
+        )
 
     def is_enrolled(self) -> bool:
         """
@@ -98,7 +103,7 @@ class AwsProvider(BaseProvider):
             ],
         )
 
-        return result.get("Tags", False)
+        return result.get("Tags", False) is not False
 
     def get_events_from_message_queue(self) -> Iterator[Optional[Event]]:
         """
