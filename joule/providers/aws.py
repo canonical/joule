@@ -93,17 +93,15 @@ class AwsProvider(BaseProvider):
             Filters=[
                 {"Name": "resource-id", "Values": [self._instance_id]},
                 {
-                    "Name": "tag",
-                    "Values": [
-                        "{}={}".format(
-                            self._tag_enrolled["Key"], self._tag_enrolled["Value"]
-                        )
-                    ],
+                    "Name": "key",
+                    "Values": [self._tag_enrolled["Key"]],
                 },
             ],
         )
 
-        return result.get("Tags", False) is not False
+        if result.get("Tags", None):
+            return True
+        return False  # When none or empty list (no matches for tag key).
 
     def get_events_from_message_queue(self) -> Iterator[Optional[Event]]:
         """
