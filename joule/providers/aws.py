@@ -4,7 +4,7 @@ import logging
 
 from datetime import datetime
 from ec2_metadata import ec2_metadata
-from typing import Iterator, Optional, List, Dictionary
+from typing import Iterator, Optional, List, Dict
 
 from mypy_boto3_autoscaling.client import AutoScalingClient
 from mypy_boto3_ec2 import EC2Client
@@ -113,11 +113,11 @@ class AwsProvider(BaseProvider):
 
         for msg in rx:
             try:
-                loaded: Dictionary[str, str] = json.loads(
+                loaded: Dict[str, str] = json.loads(
                     json.loads(msg.body).get("Message")
                 )
             except TypeError:
-                loaded: Dictionary[str, str] = json.loads(msg.body)
+                loaded: Dict[str, str] = json.loads(msg.body)
 
             if self.is_enrolled():
                 if loaded.get("Event") == "autoscaling:EC2_INSTANCE_LAUNCH":
