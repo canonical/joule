@@ -23,7 +23,8 @@ class BaseProvider(ABC):
         """
         :param: application: BaseApplication
         """
-        self.applications = applications
+        self.applications: tuple = applications
+        self._tag_enrolled: dict = {"Key": "Joule-Enrolled", "Value": "1"}
 
     @abstractmethod
     def mark_essential(self) -> None:
@@ -32,6 +33,23 @@ class BaseProvider(ABC):
         termination during a scale event.
 
         :return: None
+        """
+
+    @abstractmethod
+    def mark_enrolled(self) -> None:
+        """
+        Mark this instance as being enrolled in the application's cluster.
+
+        :return: None
+        """
+
+    @abstractmethod
+    def is_enrolled(self) -> bool:
+        """
+        Return whether or not this instance has been enrolled into the
+        application's cluster.
+
+        :return: Boolean
         """
 
     @abstractmethod
@@ -80,6 +98,7 @@ class BaseProvider(ABC):
                     for app in self.applications:
                         if event.application == app:
                             app.join(self, event)
+                    self.mark_enrolled()
 
                 elif event.event is Events.LAUNCH:
                     logging.info("LAUNCH event.")
