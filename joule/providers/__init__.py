@@ -24,7 +24,7 @@ class BaseProvider(ABC):
         :param: application: BaseApplication
         """
         self.applications: tuple = applications
-        self._tag_enrolled: dict = {"Key": "Joule-Enrolled", "Value": "1"}
+        self._tag_enrolled: dict = {"Key": "joule:enrolled", "Value": "1"}
 
     @abstractmethod
     def mark_essential(self) -> None:
