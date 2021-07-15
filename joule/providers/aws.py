@@ -109,13 +109,13 @@ class AwsProvider(BaseProvider):
 
         :return: Event
         """
-        rx: List[Message] = self._queue.receive_messages()
+        rx: List[Message] = self._queue.receive_messages(
+            VisibilityTimeout=0, WaitTimeSeconds=5, MaxNumberOfMessages=100
+        )
 
         for msg in rx:
             try:
-                loaded: Dict[str, str] = json.loads(
-                    json.loads(msg.body).get("Message")
-                )
+                loaded: Dict[str, str] = json.loads(json.loads(msg.body).get("Message"))
             except TypeError:
                 loaded: Dict[str, str] = json.loads(msg.body)
 
@@ -129,6 +129,8 @@ class AwsProvider(BaseProvider):
                     yield Event(
                         event=Events.TERMINATE, instance=loaded["EC2InstanceId"]
                     )
+            else:
+                logging.info("Not yet enrolled, ignoring event: {}".format(loaded))
 
             for app in self.applications:
                 if loaded.get("Event") == "{}:join".format(app.name):
