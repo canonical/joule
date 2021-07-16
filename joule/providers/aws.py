@@ -151,8 +151,6 @@ class AwsProvider(BaseProvider):
                                 application=app,
                             )
 
-            logging.debug("Ignoring event: {}".format(loaded))
-
     def send_join_to_message_queue(
         self, application: object, event: Event, payload: dict
     ) -> None:
