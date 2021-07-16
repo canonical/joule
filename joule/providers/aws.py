@@ -119,13 +119,13 @@ class AwsProvider(BaseProvider):
             except TypeError:
                 loaded: Dict[str, str] = json.loads(msg.body)
 
+            event: Optional[str] = loaded.get("Event")
+
             if self.is_enrolled():
                 for app in self.applications:
-                    if loaded.get("Event") == "{}:join".format(app.name):
+                    if event == "{}:join".format(app.name):
                         if loaded.get("EC2InstanceId") == self._instance_id:
                             msg.delete()  # Clean up any duplicated events.
-
-                event: Optional[str] = loaded.get("Event")
 
                 if event == "autoscaling:TEST_NOTIFICATION":
                     msg.delete()  # AWS spam.
@@ -141,7 +141,7 @@ class AwsProvider(BaseProvider):
                     )
             else:
                 for app in self.applications:
-                    if loaded.get("Event") == "{}:join".format(app.name):
+                    if event == "{}:join".format(app.name):
                         if loaded.get("EC2InstanceId") == self._instance_id:
                             msg.delete()
                             yield Event(
