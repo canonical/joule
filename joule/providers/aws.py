@@ -110,7 +110,7 @@ class AwsProvider(BaseProvider):
         :return: Event
         """
         rx: List[Message] = self._queue.receive_messages(
-            VisibilityTimeout=0, WaitTimeSeconds=5, MaxNumberOfMessages=10
+            VisibilityTimeout=0, WaitTimeSeconds=1, MaxNumberOfMessages=10
         )
 
         for msg in rx:
@@ -119,31 +119,37 @@ class AwsProvider(BaseProvider):
             except TypeError:
                 loaded: Dict[str, str] = json.loads(msg.body)
 
+            event: Optional[str] = loaded.get("Event")
+
             if self.is_enrolled():
-                if loaded.get("Event") == "autoscaling:EC2_INSTANCE_LAUNCH":
+                for app in self.applications:
+                    if event == "{}:join".format(app.name):
+                        if loaded.get("EC2InstanceId") == self._instance_id:
+                            msg.delete()  # Clean up any duplicated events.
+
+                if event == "autoscaling:TEST_NOTIFICATION":
+                    msg.delete()  # AWS spam.
+
+                if event == "autoscaling:EC2_INSTANCE_LAUNCH":
                     msg.delete()
                     yield Event(event=Events.LAUNCH, instance=loaded["EC2InstanceId"])
 
-                if loaded.get("Event") == "autoscaling:EC2_INSTANCE_TERMINATE":
+                if event == "autoscaling:EC2_INSTANCE_TERMINATE":
                     msg.delete()
                     yield Event(
                         event=Events.TERMINATE, instance=loaded["EC2InstanceId"]
                     )
             else:
-                logging.info("Not yet enrolled, ignoring event: {}".format(loaded))
-
-            for app in self.applications:
-                if loaded.get("Event") == "{}:join".format(app.name):
-                    if loaded.get("EC2InstanceId") == self._instance_id:
-                        msg.delete()
-                        yield Event(
-                            event=Events.JOIN,
-                            instance=loaded["EC2InstanceId"],
-                            payload=json.loads(loaded["Payload"]),
-                            application=app,
-                        )
-
-            logging.info("Ignoring event: {}".format(loaded))
+                for app in self.applications:
+                    if event == "{}:join".format(app.name):
+                        if loaded.get("EC2InstanceId") == self._instance_id:
+                            msg.delete()
+                            yield Event(
+                                event=Events.JOIN,
+                                instance=loaded["EC2InstanceId"],
+                                payload=json.loads(loaded["Payload"]),
+                                application=app,
+                            )
 
     def send_join_to_message_queue(
         self, application: object, event: Event, payload: dict
