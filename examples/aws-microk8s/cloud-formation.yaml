@@ -1,0 +1,249 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: ""
+Parameters:
+  AppName:
+    Type: String
+    Default: "Joule"
+Resources:
+  SQSQueue:
+    Type: "AWS::SQS::Queue"
+    Properties:
+      DelaySeconds: "0"
+      MaximumMessageSize: "262144"
+      MessageRetentionPeriod: "345600"
+      ReceiveMessageWaitTimeSeconds: "0"
+      VisibilityTimeout: "30"
+      QueueName: !Sub "${AppName}"
+  SQSQueuePolicy:
+    Type: "AWS::SQS::QueuePolicy"
+    Properties:
+      PolicyDocument:
+        Version: "2008-10-17"
+        Id: SQS-Policy-1
+        Statement:
+          - Sid: !Sub "${AppName}-SQS-1"
+            Effect: Allow
+            Principal:
+              AWS: !Sub "${AWS::AccountId}"
+            Action:
+              - "sqs:*"
+            Resource: !Sub "${SQSQueue.QueueName}"
+          - Sid: !Sub "${AppName}-SQS-2"
+            Effect: Allow
+            Principal:
+              AWS: "*"
+            Action:
+              - SQS:SendMessage
+            Resource: !GetAtt
+              - SQSQueue
+              - Arn
+            Condition:
+              ArnLike:
+                aws:SourceArn: !Sub "arn:aws:sns:${AWS::Region}:${AWS::AccountId}:${SNSTopic.TopicName}"
+      Queues:
+        - !Sub "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/${SQSQueue.QueueName}"
+    DependsOn: "SQSQueue"
+  SNSTopic:
+    Type: "AWS::SNS::Topic"
+    Properties:
+      DisplayName: "Foo"
+      TopicName: !Sub "${AppName}"
+  SNSSubscription:
+    Type: "AWS::SNS::Subscription"
+    Properties:
+      TopicArn: !Sub "arn:aws:sns:${AWS::Region}:${AWS::AccountId}:${SNSTopic.TopicName}"
+      Endpoint: !GetAtt
+        - SQSQueue
+        - Arn
+      Protocol: "sqs"
+      RawMessageDelivery: "false"
+      Region: !Ref AWS::Region
+    DependsOn: "SNSTopic"
+  SNSTopicPolicy:
+    Type: "AWS::SNS::TopicPolicy"
+    Properties:
+      PolicyDocument:
+        Version: "2008-10-17"
+        Id: SNSSubscriptionPolicy
+        Statement:
+          - Sid: SNSSubscriptionPolicySid
+            Effect: Allow
+            Principal:
+              AWS: !Sub "${AWS::AccountId}"
+            Action:
+              - SNS:GetTopicAttributes
+              - SNS:SetTopicAttributes
+              - SNS:AddPermission
+              - SNS:RemovePermission
+              - SNS:DeleteTopic
+              - SNS:Subscribe
+              - SNS:ListSubscriptionsByTopic
+              - SNS:Publish
+              - SNS:Receive
+            Resource: !Sub "arn:aws:sns:${AWS::Region}:${AWS::AccountId}:${SNSTopic.TopicName}"
+            Condition:
+              StringEquals:
+                AWS:SourceOwner: !Sub "${AWS::AccountId}"
+      Topics:
+        - !Sub "arn:aws:sns:${AWS::Region}:${AWS::AccountId}:${SNSTopic.TopicName}"
+    DependsOn: [SNSTopic]
+  EC2LaunchTemplate:
+    Type: "AWS::EC2::LaunchTemplate"
+    Properties:
+      LaunchTemplateName: !Sub "${AppName}"
+      LaunchTemplateData:
+        UserData: "IyEvYmluL2Jhc2gKc25hcCBpbnN0YWxsICBqb3VsZS1leHBhbnNpb24gLS1jbGFzc2ljCnNuYXAgaW5zdGFsbCBtaWNyb2s4cyAtLWNsYXNzaWMgLS1jaGFubmVsIDEuMjEvc3RhYmxlCnVzZXJtb2QgLWEgLUcgbWljcm9rOHMgdWJ1bnR1Cm1rZGlyIC9ob21lL3VidW50dS8ua3ViZQpzdWRvIGNob3duIC1mIC1SIHVidW50dSAvaG9tZS91YnVudHUvLmt1YmUKc25hcCBzZXQgam91bGUtZXhwYW5zaW9uIHByb3ZpZGVyPWF3cwpzbmFwIHNldCBqb3VsZS1leHBhbnNpb24gYXBwbGljYXRpb25zPW1pY3Jvazhz"
+        BlockDeviceMappings:
+          - DeviceName: "/dev/sda1"
+            Ebs:
+              Encrypted: false
+              DeleteOnTermination: true
+              SnapshotId: "snap-0f06f1549ff7327c9"
+              VolumeSize: 100
+              VolumeType: "gp2"
+        IamInstanceProfile:
+          Arn: !GetAtt
+            - InstanceProfile
+            - Arn
+        EbsOptimized: false
+        KeyName: "mia"
+        DisableApiTermination: false
+        ImageId: "ami-0dba2cb6798deb6d8"
+        InstanceType: "m4.large"
+  AutoScalingAutoScalingGroup:
+    Type: "AWS::AutoScaling::AutoScalingGroup"
+    Properties:
+      AutoScalingGroupName: !Sub "${AppName}"
+      LaunchTemplate:
+        LaunchTemplateId: !Ref EC2LaunchTemplate
+        Version: 1
+      MinSize: 1
+      MaxSize: 1
+      DesiredCapacity: 1
+      Cooldown: 300
+      AvailabilityZones:
+        - !Sub "${AWS::Region}a"
+        - !Sub "${AWS::Region}b"
+        - !Sub "${AWS::Region}c"
+        - !Sub "${AWS::Region}d"
+        - !Sub "${AWS::Region}e"
+        - !Sub "${AWS::Region}f"
+      HealthCheckType: "EC2"
+      HealthCheckGracePeriod: 300
+      TerminationPolicies:
+        - "NewestInstance"
+      ServiceLinkedRoleARN: !Sub "arn:aws:iam::${AWS::AccountId}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
+      NewInstancesProtectedFromScaleIn: false
+      NotificationConfigurations:
+        - NotificationTypes:
+            - autoscaling:EC2_INSTANCE_LAUNCH
+            - autoscaling:EC2_INSTANCE_LAUNCH_ERROR
+            - autoscaling:EC2_INSTANCE_TERMINATE
+            - autoscaling:EC2_INSTANCE_TERMINATE_ERROR
+          TopicARN: !Sub "arn:aws:sns:${AWS::Region}:${AWS::AccountId}:${SNSTopic.TopicName}"
+    DependsOn:
+      - EC2LaunchTemplate
+      - SNSTopic
+  AutoScalingScalingPolicy:
+    Type: "AWS::AutoScaling::ScalingPolicy"
+    Properties:
+      AutoScalingGroupName: !Sub "${AppName}"
+      PolicyType: "SimpleScaling"
+      AdjustmentType: "ChangeInCapacity"
+      ScalingAdjustment: 1
+    DependsOn: "AutoScalingAutoScalingGroup"
+  EC2Role:
+    Type: "AWS::IAM::Role"
+    Properties:
+      Description: !Sub "${AppName} Role"
+      RoleName: !Sub "${AppName}-EC2Role"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - "sts:AssumeRole"
+      Path: /
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "*"
+                Resource: "*"
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                - events.amazonaws.com
+                - lambda.amazonaws.com
+                - ec2.amazonaws.com
+        Version: "2012-10-17"
+      Path: "/"
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "*"
+                Resource: "*"
+    Metadata:
+      aws:cdk:path: aws-instance-scheduler/SchedulerRole/Resource
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    DependsOn: "EC2Role"
+    Properties:
+      InstanceProfileName: !Sub "${AppName}-InstanceProfile"
+      Roles:
+        - !Ref EC2Role
+  LeaderNodeTagger:
+    Type: AWS::Lambda::Function
+    DependsOn:
+      - "AutoScalingAutoScalingGroup"
+      - "LambdaRole"
+    Properties:
+      Handler: "index.lambda_handler"
+      Role: !GetAtt LambdaRole.Arn
+      Runtime: "python3.8"
+      Code:
+        ZipFile: |
+          import boto3
+          import cfnresponse
+          import json
+
+
+          def get_first_instance():
+              client = boto3.client('autoscaling')
+              return client.describe_auto_scaling_groups() \
+                  ["AutoScalingGroups"][0]["Instances"][0]
+
+
+          def lambda_handler(event, context):
+              first_instance = get_first_instance()
+              response = boto3.client("ec2").create_tags(
+                  Resources=[first_instance["InstanceId"]],
+                  Tags=[
+                      {"Key": "joule:enrolled", "Value": "1"}
+                  ],
+              )
+              cfnresponse.send(event, context, cfnresponse.SUCCESS, {}, "CustomResourcePhysicalID")
+              return {
+                  'statusCode': 200,
+                  'body': first_instance["InstanceId"].strip()
+              }
+  LeaderNodeTaggerTrigger:
+    Type: AWS::CloudFormation::CustomResource
+    DependsOn: LeaderNodeTagger
+    Version: "1.0"
+    Properties:
+      ServiceToken: !GetAtt LeaderNodeTagger.Arn
