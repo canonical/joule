@@ -5,7 +5,7 @@ on:
     branches: [master]
 
 jobs:
-  check-formatting:
+  unit-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
