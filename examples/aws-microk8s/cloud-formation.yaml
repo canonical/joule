@@ -172,8 +172,17 @@ Resources:
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
-              - Effect: Allow
-                Action: "*"
+              - Action: autoscaling:*
+                Effect: Allow
+                Resource: "*"
+              - Action: ec2:*
+                Effect: Allow
+                Resource: "*"
+              - Action: sns:*
+                Effect: Allow
+                Resource: "*"
+              - Action: sqs:*
+                Effect: Allow
                 Resource: "*"
   LambdaRole:
     Type: AWS::IAM::Role
@@ -194,8 +203,11 @@ Resources:
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
-              - Effect: Allow
-                Action: "*"
+              - Action: autoscaling:*
+                Effect: Allow
+                Resource: "*"
+              - Action: ec2:*
+                Effect: Allow
                 Resource: "*"
     Metadata:
       aws:cdk:path: aws-instance-scheduler/SchedulerRole/Resource
