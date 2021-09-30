@@ -21,7 +21,7 @@ class Event:
 
     def __init__(
         self,
-        event: Enum,
+        event: Events,
         instance: str,
         payload: Optional[dict] = None,
         application: Optional[object] = None,
@@ -33,7 +33,7 @@ class Event:
         :param application: BaseApplication to lock event to
         :return: None
         """
-        self.event: Enum = event
+        self.event: Events = event
         self.instance: str = instance
         self.payload: Optional[dict] = payload
         self.application: Optional[object] = application

@@ -22,6 +22,7 @@ setup(
         "click",
         "ec2-metadata",
         "pyyaml",
+        "types_PyYAML",
     ],
     entry_points={
         "console_scripts": [

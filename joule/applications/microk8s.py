@@ -126,10 +126,5 @@ class Microk8sApplication(BaseApplication):
             ]
         ).decode()
         desc: dict = json.loads(out)
-        hostname: str = (
-            desc.get("items")[0]
-            .get("metadata")
-            .get("labels")
-            .get("kubernetes.io/hostname")
-        )
+        hostname: str = desc["items"][0]["metadata"]["labels"]["kubernetes.io/hostname"]
         check_output(["sudo", "microk8s", "remove-node", hostname, "--force"])
