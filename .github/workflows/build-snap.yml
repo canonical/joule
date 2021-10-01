@@ -1,0 +1,28 @@
+name: Create Snap Package
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  build-snap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+      - name: Install LXD
+        run: |
+          sudo lxd init --auto
+          sudo usermod --append --groups lxd $USER
+          sg lxd -c 'lxc version'
+      - name: Install Snapcraft
+        run: sudo snap install snapcraft --classic
+      - name: Build snap
+        run: |
+          sg lxd -c 'snapcraft --use-lxd'
+          sudo mv joule*.snap joule.snap
+      - name: Uploading Snap
+        uses: actions/upload-artifact@v1
+        with:
+          name: joule.snap
+          path: joule.snap
