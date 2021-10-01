@@ -1,14 +1,15 @@
 import boto3
 import json
-import logging
 
 from datetime import datetime
 from ec2_metadata import ec2_metadata
-from typing import Iterator, Optional, List, Dict
+from typing import Iterator, Optional, List, Dict, Any
 
 from mypy_boto3_autoscaling.client import AutoScalingClient
 from mypy_boto3_ec2 import EC2Client
+from mypy_boto3_ec2.type_defs import DescribeTagsResultTypeDef
 from mypy_boto3_sqs.service_resource import Message, Queue
+from mypy_boto3_sqs.type_defs import ListQueuesResultTypeDef
 
 from joule.providers import BaseProvider, Event, Events, logging
 
@@ -32,11 +33,11 @@ class AwsProvider(BaseProvider):
 
         self._region: str = ec2_metadata.region
 
-        queue_url: str = boto3.client("sqs", region_name=self._region).list_queues()[
-            "QueueUrls"
-        ][
-            0
-        ]  # Get first queue found.
+        queues: ListQueuesResultTypeDef = boto3.client(
+            "sqs", region_name=self._region
+        ).list_queues()
+        queue_url: str = queues["QueueUrls"][0]  # Get first queue found.
+
         self._queue: Queue = boto3.resource("sqs", region_name=self._region).Queue(
             queue_url
         )
@@ -89,7 +90,7 @@ class AwsProvider(BaseProvider):
 
         :return: Boolean
         """
-        result: dict = self._ec2.describe_tags(
+        result: DescribeTagsResultTypeDef = self._ec2.describe_tags(
             Filters=[
                 {"Name": "resource-id", "Values": [self._instance_id]},
                 {
@@ -103,7 +104,7 @@ class AwsProvider(BaseProvider):
             return True
         return False  # When none or empty list (no matches for tag key).
 
-    def get_events_from_message_queue(self) -> Iterator[Optional[Event]]:
+    def get_events_from_message_queue(self) -> Iterator[Event]:
         """
         Read the SQS queue for messages and try to parse them into an event object.
 
@@ -114,10 +115,11 @@ class AwsProvider(BaseProvider):
         )
 
         for msg in rx:
+            loaded: Dict[str, str] = {}
             try:
-                loaded: Dict[str, str] = json.loads(json.loads(msg.body).get("Message"))
+                loaded = json.loads(json.loads(msg.body).get("Message"))
             except TypeError:
-                loaded: Dict[str, str] = json.loads(msg.body)
+                loaded = json.loads(msg.body)
 
             event: Optional[str] = loaded.get("Event")
 
@@ -152,7 +154,7 @@ class AwsProvider(BaseProvider):
                             )
 
     def send_join_to_message_queue(
-        self, application: object, event: Event, payload: dict
+        self, application: Any, event: Event, payload: dict
     ) -> None:
         """
         Add the generated token to the queue.
