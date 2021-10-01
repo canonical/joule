@@ -53,7 +53,7 @@ class BaseProvider(ABC):
         """
 
     @abstractmethod
-    def get_events_from_message_queue(self) -> Iterator[Optional[Event]]:
+    def get_events_from_message_queue(self) -> Iterator[Event]:
         """
         Read messages from the provider's message queue and parse the relevant
         scaling group events.  Transform parsed events into Even objects to be

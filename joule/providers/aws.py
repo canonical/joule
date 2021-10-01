@@ -104,7 +104,7 @@ class AwsProvider(BaseProvider):
             return True
         return False  # When none or empty list (no matches for tag key).
 
-    def get_events_from_message_queue(self) -> Iterator[Optional[Event]]:
+    def get_events_from_message_queue(self) -> Iterator[Event]:
         """
         Read the SQS queue for messages and try to parse them into an event object.
 
