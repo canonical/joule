@@ -12,6 +12,10 @@ The SQS and SNS are used to communicate between the Auto Scale Group and Joule.
 
 The launch template specifies the type of EC2 instances to be created, as well as their AMI. Note that the AMI may have to be changed across regions.
 
+#### User Data
+
+The `UserData` section of the launch template is what installs and configures MicroK8s and Joule. It's formatted in base64 so, to edit it, you must first pipe the string into `base64 -d` and then reformat with `base64` before replacing the string in the template.
+
 ### Auto Scaling Group
 
 The Auto Scale Group defines the boundaries of scaling. Set `MinSize`, `MaxSize` and `DesiredCapacity` to your requirements.
