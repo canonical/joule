@@ -140,8 +140,5 @@ cython_debug/
 # Snaps
 *.snap
 
-# Requirements are generated from Poetry
-requirements.txt
-
 # VSCode
 .vscode
