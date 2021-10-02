@@ -10,7 +10,7 @@ from importlib import import_module
     "--provider", required=True, help="Provider module name, may only be one."
 )
 @click.option(
-    "--applications", required=True, help="Application module names, comma seperated."
+    "--applications", required=True, help="Application module names, comma separated."
 )
 @click.option("--debug", is_flag=True)
 def main(provider, applications, debug):
