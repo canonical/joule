@@ -10,7 +10,7 @@ Install with `snap install joule-expansion --classic`.
 
 ## Required options
 
-Set these with `snap set joule-expansion ${options}=${value}`. The snap will
+Set these with `snap set joule-expansion ${option}=${value}`. The snap will
 remain in blocked state until these are set.
 
 - `provider`: name of provider. E.g. "aws".
