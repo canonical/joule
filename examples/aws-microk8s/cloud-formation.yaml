@@ -106,7 +106,7 @@ Resources:
             - InstanceProfile
             - Arn
         EbsOptimized: false
-        KeyName: "mia"
+        KeyName: "ad-hoc"
         DisableApiTermination: false
         ImageId: "ami-0dba2cb6798deb6d8"
         InstanceType: "m4.large"
@@ -166,24 +166,38 @@ Resources:
                 - ec2.amazonaws.com
             Action:
               - "sts:AssumeRole"
-      Path: /
       Policies:
         - PolicyName: root
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
-              - Action: autoscaling:*
+              - Action: autoscaling:DescribeAutoScalingGroups
                 Effect: Allow
                 Resource: "*"
-              - Action: ec2:*
+              - Action: autoscaling:DescribeAutoScalingInstances
                 Effect: Allow
                 Resource: "*"
-              - Action: sns:*
+              - Action: autoscaling:SetInstanceProtection
+                Effect: Allow
+                Resource: !Sub "arn:*:autoscaling:*:*:autoScalingGroup:*:autoScalingGroupName/${AppName}"
+              - Action: ec2:CreateTags
+                Effect: Allow
+                Resource: "arn:*:ec2:*:*:instance/*"
+              - Action: ec2:DescribeTags
                 Effect: Allow
                 Resource: "*"
-              - Action: sqs:*
+              - Action: sqs:ListQueues
                 Effect: Allow
                 Resource: "*"
+              - Action: sqs:ReceiveMessage
+                Effect: Allow
+                Resource: !Sub "arn:*:sqs:*:*:${AppName}"
+              - Action: sqs:DeleteMessage
+                Effect: Allow
+                Resource: !Sub "arn:*:sqs:*:*:${AppName}"
+              - Action: sqs:SendMessage
+                Effect: Allow
+                Resource: !Sub "arn:*:sqs:*:*:${AppName}"
   LambdaRole:
     Type: AWS::IAM::Role
     Properties:
@@ -197,18 +211,20 @@ Resources:
                 - lambda.amazonaws.com
                 - ec2.amazonaws.com
         Version: "2012-10-17"
-      Path: "/"
       Policies:
         - PolicyName: root
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
-              - Action: autoscaling:*
+              - Action: autoscaling:DescribeAutoScalingGroups
                 Effect: Allow
                 Resource: "*"
-              - Action: ec2:*
+              - Action: autoscaling:DescribeAutoScalingInstances
                 Effect: Allow
                 Resource: "*"
+              - Action: ec2:CreateTags
+                Effect: Allow
+                Resource: "arn:*:ec2:*:*:instance/*"
     Metadata:
       aws:cdk:path: aws-instance-scheduler/SchedulerRole/Resource
   InstanceProfile:
