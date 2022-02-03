@@ -3,6 +3,8 @@ Description: ""
 Parameters:
   AppName:
     Type: String
+    MinLength: '3'
+    AllowedPattern: '[a-zA-Z0-9\(\)\.\-/_]+'
     Default: "Joule"
 Resources:
   SQSQueue:
