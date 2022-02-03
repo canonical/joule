@@ -106,7 +106,7 @@ Resources:
             - InstanceProfile
             - Arn
         EbsOptimized: false
-        KeyName: "ad-hoc"
+        KeyName: "mia"
         DisableApiTermination: false
         ImageId: "ami-0dba2cb6798deb6d8"
         InstanceType: "m4.large"
