@@ -6,6 +6,9 @@ Parameters:
     MinLength: '3'
     AllowedPattern: '[a-zA-Z0-9\(\)\.\-/_]+'
     Default: "Joule"
+  LatestUbuntuFocalAMI:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/canonical/ubuntu/server/focal/stable/current/amd64/hvm/ebs-gp2/ami-id
 Resources:
   SQSQueue:
     Type: "AWS::SQS::Queue"
@@ -109,7 +112,7 @@ Resources:
         EbsOptimized: false
         KeyName: "mia"
         DisableApiTermination: false
-        ImageId: "ami-0dba2cb6798deb6d8"
+        ImageId: !Ref LatestUbuntuFocalAMI
         InstanceType: "m4.large"
   AutoScalingAutoScalingGroup:
     Type: "AWS::AutoScaling::AutoScalingGroup"
