@@ -120,13 +120,6 @@ Resources:
       MaxSize: 1
       DesiredCapacity: 1
       Cooldown: 300
-      AvailabilityZones:
-        - !Sub "${AWS::Region}a"
-        - !Sub "${AWS::Region}b"
-        - !Sub "${AWS::Region}c"
-        - !Sub "${AWS::Region}d"
-        - !Sub "${AWS::Region}e"
-        - !Sub "${AWS::Region}f"
       HealthCheckType: "EC2"
       HealthCheckGracePeriod: 300
       TerminationPolicies:
