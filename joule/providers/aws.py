@@ -33,19 +33,22 @@ class AwsProvider(BaseProvider):
 
         self._region: str = ec2_metadata.region
 
-        queues: ListQueuesResultTypeDef = boto3.client(
-            "sqs", region_name=self._region
-        ).list_queues()
-        queue_url: str = queues["QueueUrls"][0]  # Get first queue found.
+        self._asg: AutoScalingClient = boto3.client(
+            "autoscaling", region_name=self._region
+        )
+        asg_name: str = self._asg.describe_auto_scaling_instances(
+            InstanceIds=[ec2_metadata.instance_id], MaxRecords=1
+        )["AutoScalingInstances"][0]["AutoScalingGroupName"]
 
+        # The queue has the same name as the AutoScalingGroupName
+        queue_url: str = boto3.client(
+            "sqs", region_name=self._region
+        ).get_queue_url(QueueName=asg_name)["QueueUrl"]
         self._queue: Queue = boto3.resource("sqs", region_name=self._region).Queue(
             queue_url
         )
 
         self._ec2: EC2Client = boto3.client("ec2", region_name=self._region)
-        self._asg: AutoScalingClient = boto3.client(
-            "autoscaling", region_name=self._region
-        )
 
     def mark_essential(self) -> None:
         """
@@ -111,7 +114,7 @@ class AwsProvider(BaseProvider):
         :return: Event
         """
         rx: List[Message] = self._queue.receive_messages(
-            VisibilityTimeout=0, WaitTimeSeconds=1, MaxNumberOfMessages=10
+            VisibilityTimeout=5, WaitTimeSeconds=2, MaxNumberOfMessages=10
         )
 
         for msg in rx:

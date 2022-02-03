@@ -14,7 +14,7 @@ The launch template specifies the type of EC2 instances to be created, as well a
 
 #### User Data
 
-The `UserData` section of the launch template is what installs and configures MicroK8s and Joule. It's formatted in base64 so, to edit it, you must first pipe the string into `base64 -d` and then reformat with `base64` before replacing the string in the template.
+The `UserData` section of the launch template is what installs and configures MicroK8s and Joule.
 
 ### Auto Scaling Group
 
