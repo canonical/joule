@@ -98,7 +98,6 @@ Resources:
             Ebs:
               Encrypted: false
               DeleteOnTermination: true
-              SnapshotId: "snap-0f06f1549ff7327c9"
               VolumeSize: 100
               VolumeType: "gp2"
         IamInstanceProfile:
