@@ -41,9 +41,9 @@ class AwsProvider(BaseProvider):
         )["AutoScalingInstances"][0]["AutoScalingGroupName"]
 
         # The queue has the same name as the AutoScalingGroupName
-        queue_url: str = boto3.client(
-            "sqs", region_name=self._region
-        ).get_queue_url(QueueName=asg_name)["QueueUrl"]
+        queue_url: str = boto3.client("sqs", region_name=self._region).get_queue_url(
+            QueueName=asg_name
+        )["QueueUrl"]
         self._queue: Queue = boto3.resource("sqs", region_name=self._region).Queue(
             queue_url
         )
@@ -96,11 +96,8 @@ class AwsProvider(BaseProvider):
         result: DescribeTagsResultTypeDef = self._ec2.describe_tags(
             Filters=[
                 {"Name": "resource-id", "Values": [self._instance_id]},
-                {
-                    "Name": "key",
-                    "Values": [self._tag_enrolled["Key"]],
-                },
-            ],
+                {"Name": "key", "Values": [self._tag_enrolled["Key"]]},
+            ]
         )
 
         if result.get("Tags", None):
