@@ -114,7 +114,7 @@ class AwsProvider(BaseProvider):
         :return: Event
         """
         rx: List[Message] = self._queue.receive_messages(
-            VisibilityTimeout=5, WaitTimeSeconds=2, MaxNumberOfMessages=10
+            VisibilityTimeout=0, WaitTimeSeconds=1, MaxNumberOfMessages=10
         )
 
         for msg in rx:
