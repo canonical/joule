@@ -4,7 +4,7 @@ Parameters:
   AppName:
     Description: Name of the application the cluster will serve
     Type: String
-    MinLength: '3'
+    MinLength: "3"
     AllowedPattern: '[a-zA-Z0-9\(\)\.\-/_]+'
     Default: "MicroK8s"
   KeyPair:
@@ -118,17 +118,16 @@ Resources:
       LaunchTemplateName: !Sub "${AppName}"
       LaunchTemplateData:
         UserData:
-          Fn::Base64:
-            !Sub |
-              #!/bin/bash
+          Fn::Base64: !Sub |
+            #!/bin/bash
 
-              snap install joule-expansion --classic
-              snap install microk8s --classic --channel=${KubernetesVersion}/stable
-              usermod -a -G microk8s ubuntu
-              mkdir /home/ubuntu/.kube
-              chown -f -R ubuntu /home/ubuntu/.kube
-              snap set joule-expansion provider=aws
-              snap set joule-expansion application=microk8s
+            snap install joule-expansion --classic
+            snap install microk8s --classic --channel=${KubernetesVersion}/stable
+            usermod -a -G microk8s ubuntu
+            mkdir /home/ubuntu/.kube
+            chown -f -R ubuntu /home/ubuntu/.kube
+            snap set joule-expansion provider=aws
+            snap set joule-expansion applications=microk8s
         BlockDeviceMappings:
           - DeviceName: "/dev/sda1"
             Ebs:
@@ -185,7 +184,7 @@ Resources:
       ScalingAdjustment: 1
     DependsOn: "AutoScalingAutoScalingGroup"
   AutoScalingRole:
-    Type: 'AWS::IAM::ServiceLinkedRole'
+    Type: "AWS::IAM::ServiceLinkedRole"
     Properties:
       AWSServiceName: autoscaling.amazonaws.com
       Description: AutoScaling ServiceLinked Role
@@ -225,6 +224,9 @@ Resources:
                 Effect: Allow
                 Resource: "*"
               - Action: sqs:ListQueues
+                Effect: Allow
+                Resource: "*"
+              - Action: sqs:GetQueueUrl
                 Effect: Allow
                 Resource: "*"
               - Action: sqs:ReceiveMessage
