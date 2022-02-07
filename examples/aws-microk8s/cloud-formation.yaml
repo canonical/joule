@@ -9,10 +9,10 @@ Parameters:
     Default: "MicroK8s"
   KeyPair:
     Description: Amazon EC2 Key Pair used to ssh to the cluster nodes
+    Type: "AWS::EC2::KeyPair::KeyName"
   LatestUbuntuFocalAMI:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Default: /aws/service/canonical/ubuntu/server/focal/stable/current/amd64/hvm/ebs-gp2/ami-id
-    Type: "AWS::EC2::KeyPair::KeyName"
   InstanceTypeParameter:
     Type: String
     Default: m4.large
