@@ -119,18 +119,16 @@ Resources:
       LaunchTemplateData:
         UserData:
           Fn::Base64:
-            Fn::Join:
-            - ""
-            - - "#!/bin/bash \n"
-              - "snap install  joule-expansion --classic \n"
-              - "snap install microk8s --classic --channel="
-              - !Ref "KubernetesVersion"
-              - "/stable \n"
-              - "usermod -a -G microk8s ubuntu \n"
-              - "mkdir /home/ubuntu/.kube \n"
-              - "sudo chown -f -R ubuntu /home/ubuntu/.kube \n"
-              - "snap set joule-expansion provider=aws \n"
-              - "snap set joule-expansion applications=microk8s \n"
+            !Sub |
+              #!/bin/bash
+
+              snap install joule-expansion --classic
+              snap install microk8s --classic --channel=${KubernetesVersion}/stable
+              usermod -a -G microk8s ubuntu
+              mkdir /home/ubuntu/.kube
+              chown -f -R ubuntu /home/ubuntu/.kube
+              snap set joule-expansion provider=aws
+              snap set joule-expansion application=microk8s
         BlockDeviceMappings:
           - DeviceName: "/dev/sda1"
             Ebs:
