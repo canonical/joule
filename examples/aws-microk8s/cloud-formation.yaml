@@ -2,13 +2,33 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description: ""
 Parameters:
   AppName:
+    Description: Name of the application the cluster will serve
     Type: String
     MinLength: '3'
     AllowedPattern: '[a-zA-Z0-9\(\)\.\-/_]+'
-    Default: "Joule"
+    Default: "MicroK8s"
+  KeyPair:
+    Description: Amazon EC2 Key Pair used to ssh to the cluster nodes
+    Type: "AWS::EC2::KeyPair::KeyName"
   LatestUbuntuFocalAMI:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Default: /aws/service/canonical/ubuntu/server/focal/stable/current/amd64/hvm/ebs-gp2/ami-id
+  InstanceTypeParameter:
+    Type: String
+    Default: m4.large
+    AllowedValues:
+      - m4.large
+      - m4.xlarge
+      - m4.2xlarge
+    Description: Select the instance type of the cluster nodes
+  KubernetesVersion:
+    Type: String
+    Default: 1.23
+    AllowedValues:
+      - 1.23
+      - 1.22
+      - 1.21
+    Description: The Kubernetes version
 Resources:
   SQSQueue:
     Type: "AWS::SQS::Queue"
@@ -97,7 +117,18 @@ Resources:
     Properties:
       LaunchTemplateName: !Sub "${AppName}"
       LaunchTemplateData:
-        UserData: "IyEvYmluL2Jhc2gKc25hcCBpbnN0YWxsICBqb3VsZS1leHBhbnNpb24gLS1jbGFzc2ljCnNuYXAgaW5zdGFsbCBtaWNyb2s4cyAtLWNsYXNzaWMgLS1jaGFubmVsIDEuMjEvc3RhYmxlCnVzZXJtb2QgLWEgLUcgbWljcm9rOHMgdWJ1bnR1Cm1rZGlyIC9ob21lL3VidW50dS8ua3ViZQpzdWRvIGNob3duIC1mIC1SIHVidW50dSAvaG9tZS91YnVudHUvLmt1YmUKc25hcCBzZXQgam91bGUtZXhwYW5zaW9uIHByb3ZpZGVyPWF3cwpzbmFwIHNldCBqb3VsZS1leHBhbnNpb24gYXBwbGljYXRpb25zPW1pY3Jvazhz"
+        UserData:
+          Fn::Base64:
+            !Sub |
+              #!/bin/bash
+
+              snap install joule-expansion --classic
+              snap install microk8s --classic --channel=${KubernetesVersion}/stable
+              usermod -a -G microk8s ubuntu
+              mkdir /home/ubuntu/.kube
+              chown -f -R ubuntu /home/ubuntu/.kube
+              snap set joule-expansion provider=aws
+              snap set joule-expansion application=microk8s
         BlockDeviceMappings:
           - DeviceName: "/dev/sda1"
             Ebs:
@@ -110,10 +141,10 @@ Resources:
             - InstanceProfile
             - Arn
         EbsOptimized: false
-        KeyName: "mia"
+        KeyName: !Sub "${KeyPair}"
         DisableApiTermination: false
         ImageId: !Ref LatestUbuntuFocalAMI
-        InstanceType: "m4.large"
+        InstanceType: !Sub "${InstanceTypeParameter}"
   AutoScalingAutoScalingGroup:
     Type: "AWS::AutoScaling::AutoScalingGroup"
     Properties:
