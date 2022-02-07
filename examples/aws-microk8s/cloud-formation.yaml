@@ -126,7 +126,7 @@ Resources:
               - "snap install microk8s --classic --channel="
               - !Ref "KubernetesVersion"
               - "/stable \n"
-              - "usermod -a -G microk8s ubuntu] \n"
+              - "usermod -a -G microk8s ubuntu \n"
               - "mkdir /home/ubuntu/.kube \n"
               - "sudo chown -f -R ubuntu /home/ubuntu/.kube \n"
               - "snap set joule-expansion provider=aws \n"
