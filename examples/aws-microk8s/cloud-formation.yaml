@@ -3,7 +3,12 @@ Description: ""
 Parameters:
   AppName:
     Type: String
+    MinLength: '3'
+    AllowedPattern: '[a-zA-Z0-9\(\)\.\-/_]+'
     Default: "Joule"
+  LatestUbuntuFocalAMI:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/canonical/ubuntu/server/focal/stable/current/amd64/hvm/ebs-gp2/ami-id
 Resources:
   SQSQueue:
     Type: "AWS::SQS::Queue"
@@ -98,7 +103,6 @@ Resources:
             Ebs:
               Encrypted: false
               DeleteOnTermination: true
-              SnapshotId: "snap-0f06f1549ff7327c9"
               VolumeSize: 100
               VolumeType: "gp2"
         IamInstanceProfile:
@@ -108,7 +112,7 @@ Resources:
         EbsOptimized: false
         KeyName: "mia"
         DisableApiTermination: false
-        ImageId: "ami-0dba2cb6798deb6d8"
+        ImageId: !Ref LatestUbuntuFocalAMI
         InstanceType: "m4.large"
   AutoScalingAutoScalingGroup:
     Type: "AWS::AutoScaling::AutoScalingGroup"
@@ -122,17 +126,13 @@ Resources:
       DesiredCapacity: 1
       Cooldown: 300
       AvailabilityZones:
-        - !Sub "${AWS::Region}a"
-        - !Sub "${AWS::Region}b"
-        - !Sub "${AWS::Region}c"
-        - !Sub "${AWS::Region}d"
-        - !Sub "${AWS::Region}e"
-        - !Sub "${AWS::Region}f"
+        Fn::GetAZs:
+          Ref: "AWS::Region"
       HealthCheckType: "EC2"
       HealthCheckGracePeriod: 300
       TerminationPolicies:
         - "NewestInstance"
-      ServiceLinkedRoleARN: !Sub "arn:aws:iam::${AWS::AccountId}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
+      ServiceLinkedRoleARN: !Sub "arn:aws:iam::${AWS::AccountId}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling_${AppName}"
       NewInstancesProtectedFromScaleIn: false
       NotificationConfigurations:
         - NotificationTypes:
@@ -144,6 +144,7 @@ Resources:
     DependsOn:
       - EC2LaunchTemplate
       - SNSTopic
+      - AutoScalingRole
   AutoScalingScalingPolicy:
     Type: "AWS::AutoScaling::ScalingPolicy"
     Properties:
@@ -152,6 +153,12 @@ Resources:
       AdjustmentType: "ChangeInCapacity"
       ScalingAdjustment: 1
     DependsOn: "AutoScalingAutoScalingGroup"
+  AutoScalingRole:
+    Type: 'AWS::IAM::ServiceLinkedRole'
+    Properties:
+      AWSServiceName: autoscaling.amazonaws.com
+      Description: AutoScaling ServiceLinked Role
+      CustomSuffix: !Sub "${AppName}"
   EC2Role:
     Type: "AWS::IAM::Role"
     Properties:
@@ -166,24 +173,38 @@ Resources:
                 - ec2.amazonaws.com
             Action:
               - "sts:AssumeRole"
-      Path: /
       Policies:
         - PolicyName: root
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
-              - Action: autoscaling:*
+              - Action: autoscaling:DescribeAutoScalingGroups
                 Effect: Allow
                 Resource: "*"
-              - Action: ec2:*
+              - Action: autoscaling:DescribeAutoScalingInstances
                 Effect: Allow
                 Resource: "*"
-              - Action: sns:*
+              - Action: autoscaling:SetInstanceProtection
+                Effect: Allow
+                Resource: !Sub "arn:*:autoscaling:*:*:autoScalingGroup:*:autoScalingGroupName/${AppName}"
+              - Action: ec2:CreateTags
+                Effect: Allow
+                Resource: "arn:*:ec2:*:*:instance/*"
+              - Action: ec2:DescribeTags
                 Effect: Allow
                 Resource: "*"
-              - Action: sqs:*
+              - Action: sqs:ListQueues
                 Effect: Allow
                 Resource: "*"
+              - Action: sqs:ReceiveMessage
+                Effect: Allow
+                Resource: !Sub "arn:*:sqs:*:*:${AppName}"
+              - Action: sqs:DeleteMessage
+                Effect: Allow
+                Resource: !Sub "arn:*:sqs:*:*:${AppName}"
+              - Action: sqs:SendMessage
+                Effect: Allow
+                Resource: !Sub "arn:*:sqs:*:*:${AppName}"
   LambdaRole:
     Type: AWS::IAM::Role
     Properties:
@@ -197,18 +218,20 @@ Resources:
                 - lambda.amazonaws.com
                 - ec2.amazonaws.com
         Version: "2012-10-17"
-      Path: "/"
       Policies:
         - PolicyName: root
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
-              - Action: autoscaling:*
+              - Action: autoscaling:DescribeAutoScalingGroups
                 Effect: Allow
                 Resource: "*"
-              - Action: ec2:*
+              - Action: autoscaling:DescribeAutoScalingInstances
                 Effect: Allow
                 Resource: "*"
+              - Action: ec2:CreateTags
+                Effect: Allow
+                Resource: "arn:*:ec2:*:*:instance/*"
     Metadata:
       aws:cdk:path: aws-instance-scheduler/SchedulerRole/Resource
   InstanceProfile:
