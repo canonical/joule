@@ -127,7 +127,7 @@ Resources:
             mkdir /home/ubuntu/.kube
             chown -f -R ubuntu /home/ubuntu/.kube
             snap set joule-expansion provider=aws
-            snap set joule-expansion application=microk8s
+            snap set joule-expansion applications=microk8s
         BlockDeviceMappings:
           - DeviceName: "/dev/sda1"
             Ebs:
