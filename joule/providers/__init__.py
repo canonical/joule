@@ -89,7 +89,7 @@ class BaseProvider(ABC):
         """
         while True:
 
-            logging.info("Loop...")
+            logging.debug("Loop")
             self.mark_essential()
 
             for event in self.get_events_from_message_queue():
