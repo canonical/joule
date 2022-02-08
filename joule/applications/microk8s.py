@@ -126,5 +126,7 @@ class Microk8sApplication(BaseApplication):
             ]
         ).decode()
         desc: dict = json.loads(out)
+        if not desc.get("items"):
+            return  # Node is already gone.
         hostname: str = desc["items"][0]["metadata"]["labels"]["kubernetes.io/hostname"]
         check_output(["sudo", "microk8s", "remove-node", hostname, "--force"])
