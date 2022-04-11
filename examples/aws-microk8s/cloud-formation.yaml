@@ -1,4 +1,46 @@
 AWSTemplateFormatVersion: "2010-09-09"
+Mappings:
+  RegionMap:
+    us-east-1:
+      AMI: ami-0ea6173a2fbfdc5ca
+    us-gov-east-1:
+      AMI: ami-xxxxxxxxxxxxxxxxx
+    us-gov-west-1:
+      AMI: ami-xxxxxxxxxxxxxxxxx
+    us-east-2:
+      AMI: ami-xxxxxxxxxxxxxxxxx
+    us-west-1:
+      AMI: ami-xxxxxxxxxxxxxxxxx
+    us-west-2:
+      AMI: ami-xxxxxxxxxxxxxxxxx
+    ca-central-1:
+      AMI: ami-xxxxxxxxxxxxxxxxx
+    eu-central-1:
+      AMI: ami-xxxxxxxxxxxxxxxxx
+    eu-west-1:
+      AMI: ami-xxxxxxxxxxxxxxxxx
+    eu-west-2:
+      AMI: ami-xxxxxxxxxxxxxxxxx
+    eu-west-3:
+      AMI: ami-xxxxxxxxxxxxxxxxx
+    eu-north-1:
+      AMI: ami-xxxxxxxxxxxxxxxxx
+    eu-south-1:
+      AMI: ami-xxxxxxxxxxxxxxxxx
+    ap-east-1:
+      AMI: ami-xxxxxxxxxxxxxxxxx
+    ap-southeast-1:
+      AMI: ami-xxxxxxxxxxxxxxxxx
+    ap-southeast-2:
+      AMI: ami-xxxxxxxxxxxxxxxxx
+    ap-south-1:
+      AMI: ami-xxxxxxxxxxxxxxxxx
+    ap-northeast-1:
+      AMI: ami-xxxxxxxxxxxxxxxxx
+    ap-northeast-2:
+      AMI: ami-xxxxxxxxxxxxxxxxx
+    me-south-1:
+      AMI: ami-xxxxxxxxxxxxxxxxx 
 Description: ""
 Parameters:
   AppName:
@@ -10,9 +52,6 @@ Parameters:
   KeyPair:
     Description: Amazon EC2 Key Pair used to ssh to the cluster nodes
     Type: "AWS::EC2::KeyPair::KeyName"
-  LatestUbuntuFocalAMI:
-    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
-    Default: /aws/service/canonical/ubuntu/server/focal/stable/current/amd64/hvm/ebs-gp2/ami-id
   InstanceTypeParameter:
     Type: String
     Default: m4.large
@@ -142,7 +181,10 @@ Resources:
         EbsOptimized: false
         KeyName: !Sub "${KeyPair}"
         DisableApiTermination: false
-        ImageId: !Ref LatestUbuntuFocalAMI
+        ImageId: !FindInMap
+          - RegionMap
+          - !Ref AWS::Region
+          - AMI
         InstanceType: !Sub "${InstanceTypeParameter}"
   AutoScalingAutoScalingGroup:
     Type: "AWS::AutoScaling::AutoScalingGroup"
