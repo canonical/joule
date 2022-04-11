@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="topoligy-diagram.svg"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linearGradient-1"
+       y2="0%"
+       x2="100%"
+       y1="100%"
+       x1="0%">
+      <stop
+         id="stop14789"
+         offset="0%"
+         stop-color="#C8511B" />
+      <stop
+         id="stop14791"
+         offset="100%"
+         stop-color="#FF9900" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient-1"
+       id="linearGradient14813"
+       x1="0"
+       y1="80"
+       x2="80"
+       y2="0"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient-1"
+       id="linearGradient14815"
+       x1="0"
+       y1="80"
+       x2="80"
+       y2="0"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="240.78633"
+     inkscape:cy="859.96649"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1440"
+     inkscape:window-height="871"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="Icon-Resource/Compute/Res_Amazon-Lambda_Lambda-Function_48"
+       transform="matrix(0.17867965,0,0,0.15336266,110.42747,69.474844)"
+       style="fill:none;fill-rule:evenodd;stroke:none;stroke-width:1">
+      <path
+         id="Amazon-Lambda-Lambda-Function_Resource-Icon_light-bg"
+         d="M 24,44 C 12.972,44 4,35.028 4,24 4,12.972 12.972,4 24,4 35.028,4 44,12.972 44,24 44,35.028 35.028,44 24,44 Z M 24,2 C 11.869,2 2,11.869 2,24 2,36.131 11.869,46 24,46 36.131,46 46,36.131 46,24 46,11.869 36.131,2 24,2 Z m -6.769,33.25 h -5.355 l 6.345,-13.291 2.681,5.533 z m 1.883,-16.035 c -0.168,-0.345 -0.517,-0.564 -0.9,-0.564 h -0.003 c -0.385,0.001 -0.734,0.223 -0.899,0.57 L 9.389,35.819 c -0.149,0.31 -0.127,0.674 0.056,0.964 0.183,0.291 0.502,0.467 0.846,0.467 h 7.573 c 0.387,0 0.739,-0.223 0.905,-0.572 l 4.146,-8.763 c 0.129,-0.273 0.128,-0.592 -0.004,-0.864 z M 36.125,35.25 H 30.673 L 20.761,13.953 C 20.597,13.601 20.243,13.375 19.854,13.375 H 16.251 L 16.255,9.25 h 7.22 l 9.864,21.295 c 0.164,0.353 0.517,0.58 0.907,0.58 h 1.879 z m 1,-6.125 h -2.24 L 25.021,7.83 C 24.856,7.477 24.503,7.25 24.113,7.25 h -8.857 c -0.552,0 -0.999,0.447 -1,0.999 l -0.006,6.125 c 0,0.266 0.105,0.52 0.293,0.708 0.187,0.188 0.441,0.293 0.707,0.293 h 3.967 l 9.912,21.297 c 0.164,0.352 0.517,0.578 0.906,0.578 h 7.09 c 0.553,0 1,-0.447 1,-1 v -6.125 c 0,-0.553 -0.447,-1 -1,-1 z"
+         inkscape:connector-curvature="0"
+         style="fill:#d45b07" />
+    </g>
+    <g
+       id="Icon-Resource/Compute/Res_Amazon-EC2_Instance_48"
+       transform="matrix(0.26458333,0,0,0.23856415,112.86064,84.766989)"
+       style="fill:none;fill-rule:evenodd;stroke:none;stroke-width:1">
+      <path
+         id="Amazon-EC2-Instance_Resource-Icon_light-bg"
+         d="M 9,39 H 39 V 9 H 9 Z M 46,13 V 11 H 41 V 8 C 41,7.448 40.552,7 40,7 H 37 V 2 H 35 V 7 H 31 V 2 H 29 V 7 H 25 V 2 H 23 V 7 H 19 V 2 H 17 V 7 H 13 V 2 H 11 V 7 H 8 C 7.447,7 7,7.448 7,8 v 3 H 2 v 2 h 5 v 4 H 2 v 2 h 5 v 4 H 2 v 2 h 5 v 4 H 2 v 2 h 5 v 4 H 2 v 2 h 5 v 3 c 0,0.553 0.447,1 1,1 h 3 v 5 h 2 v -5 h 4 v 5 h 2 v -5 h 4 v 5 h 2 v -5 h 4 v 5 h 2 v -5 h 4 v 5 h 2 v -5 h 3 c 0.552,0 1,-0.447 1,-1 v -3 h 5 v -2 h -5 v -4 h 5 v -2 h -5 v -4 h 5 v -2 h -5 v -4 h 5 v -2 h -5 v -4 z"
+         inkscape:connector-curvature="0"
+         style="fill:#d45b07" />
+    </g>
+    <g
+       id="Icon-Resource/General-Resource/Res_User_48"
+       transform="matrix(0.26458333,0,0,0.23856415,42.786907,94.440318)"
+       style="fill:none;fill-rule:evenodd;stroke:none;stroke-width:1">
+      <path
+         id="Fill-1"
+         d="M 6.025,44 C 6.524,34.085 14.395,26.178 24,26.178 c 3.248,0 6.43,0.914 9.205,2.644 5.149,3.211 8.448,8.961 8.769,15.178 z m 8.167,-30.122 c 0,-5.446 4.4,-9.878 9.809,-9.878 5.407,0 9.806,4.432 9.806,9.878 0,5.447 -4.399,9.879 -9.806,9.879 -5.409,0 -9.809,-4.432 -9.809,-9.879 z M 34.263,27.125 C 32.53,26.044 30.65,25.26 28.698,24.771 32.877,22.939 35.807,18.749 35.807,13.878 35.807,7.329 30.51,2 24.001,2 17.489,2 12.192,7.329 12.192,13.878 c 0,4.877 2.938,9.072 7.125,10.9 C 10.545,26.981 4,35.2 4,45 c 0,0.552 0.447,1 1,1 h 38 c 0.552,0 1,-0.448 1,-1 0,-7.281 -3.731,-14.13 -9.737,-17.875 z"
+         inkscape:connector-curvature="0"
+         style="fill:#242f3e" />
+    </g>
+    <g
+       id="Icon-Resource/General-Resource/Res_Users_48"
+       transform="matrix(0.26458333,0,0,0.23856415,42.975893,70.735725)"
+       style="fill:none;fill-rule:evenodd;stroke:none;stroke-width:1">
+      <path
+         id="Fill-1-7"
+         d="M 28.639,9.286 C 28.639,6.371 31.052,4 34.019,4 c 2.966,0 5.378,2.371 5.378,5.286 0,2.915 -2.412,5.286 -5.378,5.286 -2.967,0 -5.38,-2.371 -5.38,-5.286 z m 11.524,7.048 c -0.647,-0.402 -1.33,-0.734 -2.035,-1.001 1.97,-1.31 3.269,-3.531 3.269,-6.047 C 41.397,5.269 38.087,2 34.019,2 c -4.069,0 -7.38,3.269 -7.38,7.286 0,2.51 1.293,4.728 3.256,6.039 -1.281,0.483 -2.485,1.19 -3.546,2.1 l 1.303,1.518 c 1.782,-1.529 4.037,-2.371 6.348,-2.371 1.802,0 3.569,0.505 5.109,1.461 2.74,1.702 4.538,4.692 4.844,7.967 H 34 v 2 h 11 c 0.553,0 1,-0.447 1,-1 0,-4.343 -2.236,-8.43 -5.837,-10.666 z M 8.639,9.286 C 8.639,6.371 11.052,4 14.019,4 c 2.966,0 5.378,2.371 5.378,5.286 0,2.915 -2.412,5.286 -5.378,5.286 -2.967,0 -5.38,-2.371 -5.38,-5.286 z M 14,26 H 4.046 C 4.53,20.717 8.81,16.572 14,16.572 c 1.802,0 3.569,0.505 5.109,1.461 0.432,0.269 0.849,0.575 1.24,0.91 l 1.303,-1.517 c -0.468,-0.402 -0.968,-0.769 -1.489,-1.092 -0.647,-0.402 -1.33,-0.734 -2.035,-1.001 1.97,-1.31 3.269,-3.531 3.269,-6.047 C 21.397,5.269 18.087,2 14.019,2 9.95,2 6.639,5.269 6.639,9.286 c 0,2.515 1.298,4.737 3.268,6.046 C 5.302,17.071 2,21.638 2,27 c 0,0.553 0.448,1 1,1 h 11 z m 0.046,18 C 14.53,38.717 18.81,34.572 24,34.572 c 1.802,0 3.569,0.505 5.109,1.461 2.74,1.702 4.538,4.692 4.844,7.967 z m 4.593,-16.714 c 0,-2.915 2.413,-5.286 5.38,-5.286 2.966,0 5.378,2.371 5.378,5.286 0,2.915 -2.412,5.286 -5.378,5.286 -2.967,0 -5.38,-2.371 -5.38,-5.286 z m 11.524,7.048 c -0.647,-0.402 -1.33,-0.734 -2.035,-1.001 1.97,-1.31 3.269,-3.531 3.269,-6.047 0,-4.017 -3.31,-7.286 -7.378,-7.286 -4.069,0 -7.38,3.269 -7.38,7.286 0,2.515 1.298,4.737 3.268,6.046 C 15.302,35.071 12,39.638 12,45 c 0,0.553 0.448,1 1,1 h 22 c 0.553,0 1,-0.447 1,-1 0,-4.343 -2.236,-8.43 -5.837,-10.666 z"
+         inkscape:connector-curvature="0"
+         style="fill:#242f3e" />
+    </g>
+    <g
+       id="Icon-Resource/Application-Integration/Res_Amazon-Simple-Notification-Service_Queue_48"
+       transform="matrix(0.26458333,0,0,0.23856415,96.273571,95.283883)"
+       style="fill:none;fill-rule:evenodd;stroke:none;stroke-width:1">
+      <path
+         id="Amazon-Simple-Notification-Service_Queue"
+         d="m 37.449,22.261 v 3.96 l -2.423,-2.014 z m 0.361,6.86 c 0.183,0.152 0.41,0.231 0.639,0.231 0.145,0 0.289,-0.031 0.425,-0.095 0.35,-0.165 0.575,-0.517 0.575,-0.905 v -8.176 c 0,-0.385 -0.221,-0.735 -0.567,-0.901 -0.347,-0.167 -0.759,-0.119 -1.059,0.122 l -5.004,4.017 c -0.234,0.188 -0.371,0.471 -0.37405,0.771 -0.0029,0.301 0.13005,0.586 0.36105,0.778 z m -27.283,-6.814 2.424,2.015 -2.424,1.945 z m -1.432,6.946 c 0.137,0.067 0.285,0.099 0.432,0.099 0.224,0 0.445,-0.075 0.626,-0.22 l 5.005,-4.017 c 0.234,-0.188 0.371,-0.471 0.37405,-0.771 C 15.535,24.043 15.402,23.758 15.171,23.566 L 10.166,19.407 C 9.868,19.16 9.453,19.107 9.102,19.271 8.752,19.436 8.527,19.788 8.527,20.176 v 8.176 c 0,0.385 0.221,0.735 0.568,0.901 z m 19.273,4.774 h 2 v -19.28 h -2 z m -5.247,0 h 2 v -19.28 h -2 z m -5.41,0 h 2 v -19.28 h -2 z M 3.999,35.773 H 43.977 V 13.001 H 3.999 Z M 44.977,11 H 3 c -0.553,0 -1,0.448 -1,1 v 24.773 c 0,0.552 0.447,1 1,1 h 41.977 c 0.553,0 1,-0.448 1,-1 V 12 c 0,-0.552 -0.447,-1 -1,-1 z"
+         inkscape:connector-curvature="0"
+         style="fill:#b0084d" />
+    </g>
+    <g
+       id="Icon-Resource/Compute/Res_Amazon-EC2_Instances_48"
+       transform="matrix(0.57439988,0,0,0.52955281,76.065498,63.348295)"
+       style="fill:none;fill-rule:evenodd;stroke:none;stroke-width:1">
+      <path
+         id="Amazon-EC2-Instances_Resource-Icon_light-bg"
+         d="m 4.131,22.96 h 5.855 v 2 H 4.131 C 2.956,24.96 2,24.004 2,22.829 V 4.131 C 2,2.956 2.956,2 4.131,2 h 18.698 c 1.175,0 2.131,0.956 2.131,2.131 v 6.729 h -2 V 4.131 C 22.96,4.059 22.902,4 22.829,4 H 4.131 C 4.059,4 4,4.059 4,4.131 v 18.698 c 0,0.072 0.059,0.131 0.131,0.131 z m 9.606,10.48 h 7.542 v 2 h -7.542 c -1.174,0 -2.13,-0.956 -2.13,-2.13 v -18.7 c 0,-1.174 0.956,-2.13 2.13,-2.13 h 18.699 c 1.174,0 2.131,0.956 2.131,2.13 v 6.73 h -2 v -6.73 c 0,-0.072 -0.059,-0.13 -0.131,-0.13 H 13.737 c -0.072,0 -0.13,0.058 -0.13,0.13 v 18.7 c 0,0.072 0.058,0.13 0.13,0.13 z M 43.85,43.92 24.96,43.85 V 25.091 c 0,-0.072 0.059,-0.131 0.131,-0.131 h 18.698 c 0.072,0 0.131,0.059 0.131,0.131 z M 43.789,22.96 H 25.091 c -1.175,0 -2.131,0.956 -2.131,2.131 V 43.85 c 0,1.141 0.929,2.07 2.07,2.07 h 18.82 c 1.141,0 2.07,-0.929 2.07,-2.07 V 25.091 c 0,-1.175 -0.956,-2.131 -2.131,-2.131 z"
+         inkscape:connector-curvature="0"
+         style="fill:#d45b07" />
+    </g>
+    <g
+       id="Icon-Architecture/64/Arch_Amazon-EC2-Auto-Scaling_64"
+       transform="matrix(0.15827753,0,0,0.14271248,67.279762,95.137528)"
+       style="fill:none;fill-rule:evenodd;stroke:none;stroke-width:1">
+      <g
+         id="Icon-Architecture-BG/64/Compute"
+         style="fill:url(#linearGradient14815)">
+        <rect
+           height="80"
+           width="80"
+           y="0"
+           x="0"
+           id="Rectangle"
+           style="fill:url(#linearGradient14813)" />
+      </g>
+      <path
+         id="Amazon-EC2-Auto-Scaling_Icon_64_Squid"
+         d="M 68,39.004515 H 56.6325 l 5.578026,-5.593629 -1.403689,-1.407615 -7.702422,7.723966 7.702422,7.722971 1.403689,-1.407616 -5.03303,-5.047107 H 68 Z m -49.944138,-5.593629 5.57902,5.593629 H 13 v 1.99097 h 10.089885 l -5.034023,5.047107 1.404682,1.407616 7.70143,-7.722971 -7.70143,-7.723966 z M 33.551043,48.959363 H 48.441665 V 34.027091 H 33.551043 Z M 50.276189,33.031607 h 2.136308 v 1.990969 h -1.985416 v 2.986455 h 1.985416 V 40 h -1.985416 v 2.986454 h 1.985416 v 1.99097 h -1.985416 v 2.986454 h 1.985416 v 1.99097 h -2.136308 c -0.167767,0.374302 -0.467565,0.675934 -0.841816,0.845166 v 2.141288 h -1.985416 v -1.99097 h -2.978125 v 1.99097 h -1.985416 v -1.99097 h -2.978124 v 1.99097 h -1.985416 v -1.99097 h -2.978125 v 1.99097 H 32.558335 V 50.800014 C 32.184084,50.630782 31.884286,50.32915 31.715526,49.954848 h -2.135315 v -1.99097 h 1.985416 v -2.986454 h -1.985416 v -1.99097 h 1.985416 V 40 h -1.985416 v -1.990969 h 1.985416 v -2.986455 h -1.985416 v -1.990969 h 2.135315 c 0.16876,-0.374303 0.468558,-0.675935 0.842809,-0.845167 v -2.141288 h 1.985416 v 1.99097 h 2.978125 v -1.99097 h 1.985416 v 1.99097 h 2.978124 v -1.99097 h 1.985416 v 1.99097 h 2.978125 v -1.99097 h 1.985416 v 2.141288 c 0.374251,0.169232 0.674049,0.470864 0.841816,0.845167 z M 41.492708,64.189284 V 53.936787 H 39.507292 V 64.189284 L 34.201267,58.868418 32.797578,60.276034 40.5,68 48.202422,60.276034 46.798733,58.868418 Z M 34.201267,21.131582 32.797578,19.723966 40.5,12 l 7.702422,7.723966 -1.403689,1.407616 -5.306025,-5.320866 V 26.937249 H 39.507292 V 15.810716 Z"
+         inkscape:connector-curvature="0"
+         style="fill:#ffffff" />
+    </g>
+    <rect
+       id="rect14821"
+       width="72.105705"
+       height="52.630226"
+       x="57.615677"
+       y="60.410446"
+       style="fill:#000000;fill-opacity:0;stroke:#000000;stroke-width:0.47055653;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:3.52944469px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.08823612"
+       x="42.947292"
+       y="89.498482"
+       id="text19361"
+       transform="scale(1.03106,0.96987566)"><tspan
+         sodipodi:role="line"
+         id="tspan19359"
+         x="42.947292"
+         y="89.498482"
+         style="stroke-width:0.08823612">Users</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:3.93935132px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.09848378"
+       x="43.669689"
+       y="108.49046"
+       id="text19365"
+       transform="scale(0.98238147,1.0179345)"><tspan
+         sodipodi:role="line"
+         id="tspan19363"
+         x="43.669689"
+         y="108.49046"
+         style="stroke-width:0.09848378">Admin</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:3.28685069px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.08217127"
+       x="77.299271"
+       y="91.003166"
+       id="text19369"
+       transform="scale(0.9822947,1.0180244)"><tspan
+         sodipodi:role="line"
+         id="tspan19367"
+         x="77.299271"
+         y="91.003166"
+         style="stroke-width:0.08217127">MicroK8s Cluster</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:3.14406824px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0786017"
+       x="60.037292"
+       y="119.14582"
+       id="text19373"
+       transform="scale(1.0828587,0.92348151)"><tspan
+         sodipodi:role="line"
+         x="60.037292"
+         y="119.14582"
+         style="stroke-width:0.0786017"
+         id="tspan19375">Auto Scale</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:2.92742848px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0731857"
+       x="97.257889"
+       y="107.43437"
+       id="text19387"
+       transform="scale(0.99194413,1.0081213)"><tspan
+         sodipodi:role="line"
+         id="tspan19385"
+         x="97.257889"
+         y="107.43437"
+         style="stroke-width:0.0731857">Ops Queue</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:2.00209999px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0500525"
+       x="100.56306"
+       y="85.023415"
+       id="text19391"
+       transform="scale(1.0782152,0.92745865)"><tspan
+         sodipodi:role="line"
+         id="tspan19389"
+         x="100.56306"
+         y="85.023415"
+         style="stroke-width:0.0500525">λ-Initilization</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:2.81262732px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.07031568"
+       x="113.16096"
+       y="99.154137"
+       id="text19395"
+       transform="scale(1.0020249,0.99797915)"><tspan
+         sodipodi:role="line"
+         id="tspan19393"
+         x="113.16096"
+         y="99.154137"
+         style="stroke-width:0.07031568">New Node</tspan></text>
+  </g>
+</svg>
