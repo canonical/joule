@@ -2,6 +2,8 @@
 
 Deploy this via the AWS web console and adjust the created Auto Scale Group.
 
+![Topology diagram](topoligy-diagram.png?raw=true "Topology Diagram")
+
 ## Components
 
 ### SQS and SNS
