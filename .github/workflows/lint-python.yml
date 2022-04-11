@@ -14,7 +14,7 @@ jobs:
         run: |
           pip install -r tests/requirements.txt
       - name: Black Python Formatting
-        uses: jpetrucciani/black-check@20.8b1
+        uses: jpetrucciani/black-check@21.12b0
         with:
           path: "./joule"
       - name: MyPy Typing Check
