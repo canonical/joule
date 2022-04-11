@@ -19,7 +19,7 @@ setup(
         "backoff",
         "boto3",
         "boto3-stubs[autoscaling,ec2,sqs]",
-        "click",
+        "click ==8.0.4",
         "ec2-metadata",
         "pyyaml",
         "types_PyYAML",
