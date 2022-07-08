@@ -1,46 +1,8 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Mappings:
   RegionMap:
-    us-east-1:
-      AMI: ami-0ea6173a2fbfdc5ca
-    us-gov-east-1:
-      AMI: ami-xxxxxxxxxxxxxxxxx
-    us-gov-west-1:
-      AMI: ami-xxxxxxxxxxxxxxxxx
-    us-east-2:
-      AMI: ami-xxxxxxxxxxxxxxxxx
-    us-west-1:
-      AMI: ami-xxxxxxxxxxxxxxxxx
-    us-west-2:
-      AMI: ami-xxxxxxxxxxxxxxxxx
-    ca-central-1:
-      AMI: ami-xxxxxxxxxxxxxxxxx
     eu-central-1:
-      AMI: ami-xxxxxxxxxxxxxxxxx
-    eu-west-1:
-      AMI: ami-xxxxxxxxxxxxxxxxx
-    eu-west-2:
-      AMI: ami-xxxxxxxxxxxxxxxxx
-    eu-west-3:
-      AMI: ami-xxxxxxxxxxxxxxxxx
-    eu-north-1:
-      AMI: ami-xxxxxxxxxxxxxxxxx
-    eu-south-1:
-      AMI: ami-xxxxxxxxxxxxxxxxx
-    ap-east-1:
-      AMI: ami-xxxxxxxxxxxxxxxxx
-    ap-southeast-1:
-      AMI: ami-xxxxxxxxxxxxxxxxx
-    ap-southeast-2:
-      AMI: ami-xxxxxxxxxxxxxxxxx
-    ap-south-1:
-      AMI: ami-xxxxxxxxxxxxxxxxx
-    ap-northeast-1:
-      AMI: ami-xxxxxxxxxxxxxxxxx
-    ap-northeast-2:
-      AMI: ami-xxxxxxxxxxxxxxxxx
-    me-south-1:
-      AMI: ami-xxxxxxxxxxxxxxxxx 
+      AMI: ami-0a8aceef6c7c1a078
 Description: ""
 Parameters:
   AppName:
@@ -64,6 +26,7 @@ Parameters:
     Type: String
     Default: 1.23
     AllowedValues:
+      - 1.24
       - 1.23
       - 1.22
       - 1.21
@@ -160,8 +123,7 @@ Resources:
           Fn::Base64: !Sub |
             #!/bin/bash
 
-            snap install joule-expansion --classic
-            snap install microk8s --classic --channel=${KubernetesVersion}/stable
+            snap refresh microk8s --classic --channel=${KubernetesVersion}/stable
             usermod -a -G microk8s ubuntu
             mkdir /home/ubuntu/.kube
             chown -f -R ubuntu /home/ubuntu/.kube
