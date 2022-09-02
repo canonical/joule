@@ -1,8 +1,10 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Mappings:
   RegionMap:
+    eu-central-1:
+      AMI: ami-0a8aceef6c7c1a078
     us-east-1:
-      AMI: ami-0ea6173a2fbfdc5ca
+      AMI: ami-xxxxxxxxxxxxxxxxx
     us-gov-east-1:
       AMI: ami-xxxxxxxxxxxxxxxxx
     us-gov-west-1:
@@ -160,8 +162,8 @@ Resources:
           Fn::Base64: !Sub |
             #!/bin/bash
 
-            snap install joule-expansion --classic
-            snap install microk8s --classic --channel=${KubernetesVersion}/stable
+            snap refresh joule-expansion --classic
+            snap refresh microk8s --classic --channel=${KubernetesVersion}/stable
             usermod -a -G microk8s ubuntu
             mkdir /home/ubuntu/.kube
             chown -f -R ubuntu /home/ubuntu/.kube
