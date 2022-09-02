@@ -4,7 +4,7 @@ from setuptools import setup
 setup(
     name="joule",
     version="0.1.0",
-    url="https://github.com/joedborg/joule",
+    url="https://github.com/canonical/joule",
     license="Apache License 2.0",
     author="Joe Borg",
     author_email="joseph.borg@canonical.com",
