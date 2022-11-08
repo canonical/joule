@@ -2,9 +2,9 @@ AWSTemplateFormatVersion: "2010-09-09"
 Mappings:
   RegionMap:
     eu-central-1:
-      AMI: ami-0a8aceef6c7c1a078
-    us-east-1:
       AMI: ami-xxxxxxxxxxxxxxxxx
+    us-east-1:
+      AMI: ami-0ea0f37840b2f2b19
     us-gov-east-1:
       AMI: ami-xxxxxxxxxxxxxxxxx
     us-gov-west-1:
