@@ -4,7 +4,7 @@ Mappings:
     eu-central-1:
       AMI: ami-xxxxxxxxxxxxxxxxx
     us-east-1:
-      AMI: ami-08c40ec9ead489470
+      AMI: ami-0ea0f37840b2f2b19
     us-gov-east-1:
       AMI: ami-xxxxxxxxxxxxxxxxx
     us-gov-west-1:
