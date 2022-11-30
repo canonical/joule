@@ -4,7 +4,7 @@ Mappings:
     eu-central-1:
       AMI: ami-xxxxxxxxxxxxxxxxx
     us-east-1:
-      AMI: ami-0ea0f37840b2f2b19
+      AMI: ami-08c40ec9ead489470
     us-gov-east-1:
       AMI: ami-xxxxxxxxxxxxxxxxx
     us-gov-west-1:
@@ -70,6 +70,9 @@ Parameters:
       - 1.22
       - 1.21
     Description: The Kubernetes version
+  SubNet:
+    Description: Amazon VPC Subnet to deploy the cluster on
+    Type: "AWS::EC2::Subnet::Id"
 Resources:
   SQSQueue:
     Type: "AWS::SQS::Queue"
@@ -199,9 +202,8 @@ Resources:
       MaxSize: 1
       DesiredCapacity: 1
       Cooldown: 300
-      AvailabilityZones:
-        Fn::GetAZs:
-          Ref: "AWS::Region"
+      VPCZoneIdentifier:
+        - !Ref SubNet
       HealthCheckType: "EC2"
       HealthCheckGracePeriod: 300
       TerminationPolicies:
