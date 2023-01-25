@@ -18,6 +18,6 @@ jobs:
         with:
           src: "./joule"
       - name: MyPy Typing Check
-        uses: jpetrucciani/mypy-check@master
+        uses: jpetrucciani/mypy-check@0.971
         with:
           path: "./joule"
