@@ -88,7 +88,6 @@ class BaseProvider(ABC):
         :return: None
         """
         while True:
-
             logging.debug("Loop")
             self.mark_essential()
 
