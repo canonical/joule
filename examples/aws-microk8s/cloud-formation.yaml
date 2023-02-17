@@ -486,6 +486,13 @@ Resources:
       SecurityGroupEgress:
         - IpProtocol: -1
           CidrIp: 0.0.0.0/0
+  ClusterCommunicationIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !GetAtt NodeSecurityGroup.GroupId
+      Description: "In-between node communication"
+      IpProtocol: -1
+      SourceSecurityGroupId: !GetAtt NodeSecurityGroup.GroupId
   SQSQueue:
     Type: "AWS::SQS::Queue"
     Properties:
