@@ -451,14 +451,20 @@ Parameters:
       - 1.24
       - 1.23
     Description: The Kubernetes version
-  SubNet:
-    Description: Amazon VPC Subnet to deploy the cluster on
-    Type: "AWS::EC2::Subnet::Id"
+  VPC:
+    Description: Amazon VPC to deploy the cluster on
+    Type: "AWS::EC2::VPC::Id"
+  SubNets:
+    Description: List of subnets that should be from the specified VPC to deploy the cluster on
+    Type: "List<AWS::EC2::Subnet::Id>"
   AllowSSH:
     Description: Should SSH access over port 22 be allowed for nodes?
     Default: false
     Type: String
     AllowedValues: [true, false]
+  AllowSSHCidr:
+    Type: String
+    Description: Please set CIDR to x.x.x.x/32 to allow one specific IP address access, 0.0.0.0/0 to allow all IP addresses access, or another CIDR range
 Conditions:
   ShouldAllowSSH:
     !Equals [true, !Ref AllowSSH]
@@ -467,6 +473,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Cluster communication with worker nodes
+      VpcId: !Ref VPC
       SecurityGroupIngress:
         - !If
           - ShouldAllowSSH
@@ -474,8 +481,11 @@ Resources:
             IpProtocol: tcp
             FromPort: 22
             ToPort: 22
-            CidrIp: 0.0.0.0/0
+            CidrIp: !Ref AllowSSHCidr
           - !Ref AWS::NoValue
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
   SQSQueue:
     Type: "AWS::SQS::Queue"
     Properties:
@@ -606,8 +616,7 @@ Resources:
       MaxSize: 1
       DesiredCapacity: 1
       Cooldown: 300
-      VPCZoneIdentifier:
-        - !Ref SubNet
+      VPCZoneIdentifier: !Ref SubNets
       HealthCheckType: "EC2"
       HealthCheckGracePeriod: 300
       TerminationPolicies:
