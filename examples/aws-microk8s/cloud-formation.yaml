@@ -455,7 +455,7 @@ Parameters:
     Description: Amazon VPC to deploy the cluster on
     Type: "AWS::EC2::VPC::Id"
   SubNets:
-    Description: List of subnets that should be from the specified VPC to deploy the cluster on
+    Description: List of subnets from the specified VPC that the cluster nodes can be deployed on
     Type: "List<AWS::EC2::Subnet::Id>"
   AllowSSH:
     Description: Should SSH access over port 22 be allowed for nodes?
@@ -490,7 +490,7 @@ Resources:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
       GroupId: !GetAtt NodeSecurityGroup.GroupId
-      Description: "In-between node communication"
+      Description: "Enable any traffic between the nodes of the cluster"
       IpProtocol: -1
       SourceSecurityGroupId: !GetAtt NodeSecurityGroup.GroupId
   SQSQueue:
