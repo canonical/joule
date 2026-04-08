@@ -9,15 +9,15 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
       - name: Install Requirements
         run: |
           pip install -r tests/requirements.txt
       - name: Black Python Formatting
-        uses: psf/black@stable
+        uses: psf/black@35ea67920b7f6ac8e09be1c47278752b1e827f76 # stable
         with:
           src: "./joule"
       - name: MyPy Typing Check
-        uses: jpetrucciani/mypy-check@0.971
+        uses: jpetrucciani/mypy-check@75fd977a9bfee635d3abdb7012a7a56a093e4847 # 0.971
         with:
           path: "./joule"
