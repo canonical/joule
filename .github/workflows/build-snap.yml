@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # v2.3.4
       - name: Install LXD
         run: |
           sudo lxd init --auto
@@ -23,7 +23,7 @@ jobs:
           sg lxd -c 'snapcraft --use-lxd'
           sudo mv joule*.snap joule.snap
       - name: Uploading Snap
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@34622df80861c3ed63eb2bff892de2f1fbf4c9da # v1
         with:
           name: joule.snap
           path: joule.snap
